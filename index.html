@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="./pages/index.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Место</title>
+</head>
+
+<body>
+  <div class="page">
+    <!-- Начало. Блок header -->
+    <header class="header">
+      <img class="header__logo" src="./images/logo.svg" alt="Логотип">
+    </header>
+    <!-- Конец. Блок header -->
+
+    <main class="content">
+      <!-- Начаало Блок profile -->
+      <section class="profile">
+        <div class="profile__list">
+          <img class="profile__avatar" src="./images/Avatar.png" alt="изображение Жака-Ив Кусто">
+          <div class="profile__info">
+            <div class="profile__text">
+              <h1 class="profile__title">Жак-Ив Кусто</h1>
+              <button class="profile__edit-button"><img src="./images/Vector.png "
+                  class="profile__edit-button-img"></button>
+            </div>
+            <p class="profile__subtitle">Исследователь океана</p>
+          </div>
+        </div>
+        <button class="profile__add-button"><img src="./images/Vector_the cross.png "
+            class="profile__add-button-img"></button>
+      </section>
+      <!-- Конец. Блок profile -->
+
+      <!-- Начаало Блок elements -->
+      <section class="elements">
+        <div class="element">
+          <img class="element__image" src="./images/Element_1.png" alt="Карачаевск">
+          <div class="element__list">
+            <h2 class="element__title">Карачаевск</h2>
+            <button class="element__button"><img src="./images/like.png " class="element__like-img"></button>
+          </div>
+        </div>
+
+        <div class="element">
+          <img class="element__image" src="./images/Element_2.png" alt="Кольский полуостров">
+          <div class="element__list">
+            <h2 class="element__title">Гора Эльбрус</h2>
+            <button class="element__button"><img src="./images/like.png " class="element__like-img"></button>
+          </div>
+        </div>
+
+        <div class="element">
+          <img class="element__image" src="./images/Element_3.png" alt="Алтай">
+          <div class="element__list">
+            <h2 class="element__title">Домбай</h2>
+            <button class="element__button"><img src="./images/like.png " class="element__like-img"></button>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="./images/Element_4.png" alt="Зимний Байкал.Лед">
+          <div class="element__list">
+            <h2 class="element__title">Гора Эльбрус</h2>
+            <button class="element__button"><img src="./images/like.png " class="element__like-img"></button>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="./images/Element_5.png" alt="Зимний Байкал.Лед">
+          <div class="element__list">
+            <h2 class="element__title">Домбай</h2>
+            <button class="element__button"><img src="./images/like.png " class="element__like-img"></button>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="./images/Element_6.png" alt="Зимний Байкал.Лед">
+          <div class="element__list">
+            <h2 class="element__title">Карачаево-Черкесия</h2>
+            <button class="element__button"><img src="./images/like.png " class="element__like-img"></button>
+          </div>
+        </div>
+      </section>
+      <!-- Конец. Блок elements -->
+    </main>
+
+    <!-- Начало Блок  footer-->
+    <footer class="footer">
+      <p class="footer__copyright"> &#169; 2020 Mesto Russia</p>
+    </footer>
+    <!-- Конец Блок  footer-->
+
+    <section class="popup">
+      <div class="popup__container">
+        <button class="popup__close"><img src="images/Close_Icon.png" class="popup__close-img"></button>
+        <form class="form__list">
+          <div class="form__list-container">
+            <h2 class="form__container-title">Редактировать профиль</h2>
+            <fieldset class="form__container-texts">
+              <input type="text" placeholder="Жак-Ив Кусто" name="firstname" value=""
+                class="form__item form__item_name ">
+              <br>
+              <input type="text" placeholder="Исследователь океана" value="" class="form__item form__item_theme">
+            </fieldset>
+          </div>
+          <fieldset class="popup__saved">
+            <button type="submit" class="popup__saved-button">Сохранить</button>
+          </fieldset>
+        </form>
+      </div>
+    </section>
+  </div>
+  <script src="./index.js"></script>
+</body>
+
+</html>

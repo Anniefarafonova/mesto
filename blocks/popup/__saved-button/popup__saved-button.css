@@ -1,0 +1,15 @@
+.popup__saved-button {
+    max-width: 109px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #FFFFFF;
+    border: none;
+    background: none;
+    background-color: #000000;
+    margin: 0 auto;
+    padding: 12px 0 16px;
+    cursor: pointer;
+}

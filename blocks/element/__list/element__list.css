@@ -1,0 +1,4 @@
+.element__list {
+    display: flex;
+    justify-content: space-around;
+}
