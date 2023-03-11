@@ -29,7 +29,7 @@ popupElement.addEventListener("click", CloseButtonByClickOnOverlay)
 
 popupCavedButtonElement
 // Находим форму в DOM
-let formElement = document.querySelector(".form__list");
+let formElement = document.querySelector(".form");
 // Находим поля формы в DOM
 let nameInput = formElement.querySelector(".form__item_name");// Воспользуйтесь инструментом .querySelector()
 let jobInput = formElement.querySelector(".form__item_theme");// Воспользуйтесь инструментом .querySelector()
