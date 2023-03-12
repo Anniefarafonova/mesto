@@ -6,6 +6,21 @@
     top: -35px;
     cursor: pointer;
 }
+
 .popup__close:hover {
     opacity: 60%;
+}
+
+@media screen and (max-width: 540px) {
+    .popup__close {
+        left: 385px;
+        top: -45px;
+    }
+}
+
+@media screen and (max-width: 435px) {
+    .popup__close {
+        left: 255px;
+        top: -35px;
+    }
 }

@@ -1,6 +1,5 @@
 .form__container-title {
     max-width: 330px;
-    height: 23px;
     font-style: normal;
     font-weight: 900;
     font-size: 24px;
@@ -8,4 +7,14 @@
     color: #000000;
     padding: 34px 64px 54px 36px;
     margin: 0;
+}
+
+@media screen and (max-width: 435px) {
+    .form__container-title {
+        max-width: 238px;
+        font-size: 18px;
+        line-height: 22px;
+        padding: 25px 0 75px;
+        margin: 0 auto;
+    }
 }

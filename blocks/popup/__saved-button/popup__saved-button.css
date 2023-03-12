@@ -1,5 +1,5 @@
 .popup__saved-button {
-    max-width: 109px;
+    min-width: 358px;
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -9,7 +9,17 @@
     border: none;
     background: none;
     background-color: #000000;
-    margin: 0 auto;
+    margin: 18px auto 37px;
     padding: 12px 0 16px;
     cursor: pointer;
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+}
+@media screen and (max-width: 435px) {
+    .popup__saved-button {
+        margin: 15px auto 25px;
+        min-width: 238px;
+    
+    }
 }
