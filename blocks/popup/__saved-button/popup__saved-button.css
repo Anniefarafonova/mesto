@@ -16,10 +16,17 @@
     display: flex;
     justify-content: center;
 }
+
+.popup__saved-button:hover {
+    opacity: 80%;
+}
+
 @media screen and (max-width: 435px) {
     .popup__saved-button {
         margin: 15px auto 25px;
         min-width: 238px;
-    
+        font-size: 14px;
+        line-height: 17px;
+
     }
 }

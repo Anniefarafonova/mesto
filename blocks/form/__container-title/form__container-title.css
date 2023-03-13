@@ -10,11 +10,13 @@
 }
 
 @media screen and (max-width: 435px) {
+
     .form__container-title {
         max-width: 238px;
         font-size: 18px;
         line-height: 22px;
-        padding: 25px 0 75px;
+        padding: 25px 0 70px;
         margin: 0 auto;
     }
+
 }

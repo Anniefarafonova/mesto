@@ -4,14 +4,9 @@
     flex-direction: column;
     justify-content: center;
 }
-@media screen and (max-width: 1024px) {
-    .profile__info {
-        margin: 0; 
-    }
-}
+
 @media screen and (max-width: 650px) {
     .profile__info {
-        margin: 0;
-        padding: 25px 19px 0 46px;
+        padding: 15px 19px 0 46px;
     }
 }
