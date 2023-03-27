@@ -80,7 +80,7 @@ const initialCards = [
 ];
 
 const elementsTemplate = document.querySelector('#elements-template').content;
-const list = document.querySelector('.element__list-template')
+const list = document.querySelector('.elements__list-template')
 
 initialCards.forEach(item => createCard(item.name, item.link, item.alt));
 // Coздание карточек
@@ -112,7 +112,7 @@ function createCard(name, link, alt) {
 //функцияОткрытияКартинки
 function openPopupImage(name, link, alt) {
     const popupOpenImageElement = document.querySelector(".popup_type_image");
-    const popupOpenImageContainer = popupOpenImageElement.querySelector(".popup__container_image-cntr");
+    const popupOpenImageContainer = popupOpenImageElement.querySelector(".popup__image-cntr");
     const popupOpenImage = popupOpenImageElement.querySelector(".popup__image");
     const popupOpenImageText = popupOpenImageElement.querySelector(".popup__text");
     const popupCloseImageContainer = popupOpenImageElement.querySelector(".popup__close_image-cls");
