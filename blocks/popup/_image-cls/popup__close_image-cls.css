@@ -1,0 +1,19 @@
+.popup__close_image-cls{
+    right: -40px;
+    top: -40px;
+    
+}
+@media screen and (max-width: 660px) {
+    .popup__close_image-cls {
+        width: 20px;
+        height: 20px;
+        right: -10px;
+        top: -30px;
+     }
+ }
+@media screen and (max-width: 450px) {
+    .popup__close_image-cls {
+        left: 235px;
+        top: -25px;
+     }
+ }

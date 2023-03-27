@@ -1,0 +1,6 @@
+.element__list-template{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(264px, 1fr));
+    gap: 20px 17px;
+    box-sizing: border-box;
+    }
