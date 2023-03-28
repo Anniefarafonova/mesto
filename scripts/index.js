@@ -1,5 +1,4 @@
 // Находим popup
-const popupElement = document.querySelector(".popup");
 const popupEditElement = document.querySelector(".popup_type_edit");
 const popupAddElement = document.querySelector(".popup_type_add");
 
@@ -11,21 +10,22 @@ const profileButtonElement = document.querySelector(".profile");
 const profileEditButtonElement = profileButtonElement.querySelector(".profile__edit-button");
 const profileAddButtonElement = profileButtonElement.querySelector(".profile__add-button");
 
+
 // Находим поля формы в DOM
-let formElement = document.querySelector(".form");
-let formElementAdd = popupAddElement.querySelector(".form");
+const formElementEdit = popupEditElement.querySelector(".form");
+const formElementAdd = popupAddElement.querySelector(".form");
 
-let nameEditInput = formElement.querySelector(".form__item_type_name");
-let jobEditInput = formElement.querySelector(".form__item_type_job");
+const nameEditInput = formElementEdit.querySelector(".form__item_type_name");
+const jobEditInput = formElementEdit.querySelector(".form__item_type_job");
 
-let nameAddInput = popupAddElement.querySelector(".form__item_type_name");
-let jobAddInput = popupAddElement.querySelector(".form__item_type_job");
+const nameAddInput = popupAddElement.querySelector(".form__item_type_name");
+const jobAddInput = popupAddElement.querySelector(".form__item_type_job");
 
-let buttonSavedInput = formElement.querySelector(".popup__saved-button");
-let buttonCreateInput = popupAddElement.querySelector(".popup__saved-button");
+const buttonSavedInput = formElementEdit.querySelector(".popup__saved-button");
+const buttonCreateInput = popupAddElement.querySelector(".popup__saved-button");
 
-let nameTitle = profileButtonElement.querySelector(".profile__title");
-let jobSubtitle = profileButtonElement.querySelector(".profile__subtitle");
+const nameTitle = profileButtonElement.querySelector(".profile__title");
+const jobSubtitle = profileButtonElement.querySelector(".profile__subtitle");
 
 //функция открытия попапа
 function openPopup(popup) {
@@ -40,13 +40,14 @@ profileEditButtonElement.addEventListener("click", () => openPopup(popupEditElem
 profileAddButtonElement.addEventListener("click", () => openPopup(popupAddElement));
 popupEditCloseButtonElement.addEventListener("click", () => closePopup(popupEditElement));
 popupAddCloseButtonElement.addEventListener("click", () => closePopup(popupAddElement));
-buttonSavedInput.addEventListener("click", () => formElement.addEventListener('submit', handleFormSubmit));
+formElementEdit.addEventListener('submit', handleFormSubmitEdit);
 
 
-function handleFormSubmit(evt) {
+function handleFormSubmitEdit(evt) {
     evt.preventDefault();
     nameTitle.textContent = nameEditInput.value;
     jobSubtitle.textContent = jobEditInput.value;
+    formElementEdit.reset();
     closePopup(popupEditElement)
 }
 
@@ -80,9 +81,10 @@ const initialCards = [
 ];
 
 const elementsTemplate = document.querySelector('#elements-template').content;
-const list = document.querySelector('.elements__list-template')
+const listCard = document.querySelector('.elements__list-template')
 
-initialCards.forEach(item => createCard(item.name, item.link, item.alt));
+//initialCards.forEach(item => createCard(item.name, item.link, item.alt));
+initialCards.forEach(item => listCard.append(createCard(item.name, item.link, item.alt)));
 // Coздание карточек
 function createCard(name, link, alt) {
     //Клонирование
@@ -93,62 +95,56 @@ function createCard(name, link, alt) {
     const likeButton = elementsTemplateClone.querySelector('.element__like-button')
     const deleteButton = elementsTemplateClone.querySelector('.element__delete')
     elementsTemplateTitle.textContent = name;
-    elementsTemplateTitle.alt = alt;
+    elementsTemplateImage.alt = name;
     elementsTemplateImage.src = link;
 
     // слушатель лайка
-    likeButton.addEventListener('click', likePopup)
+    likeButton.addEventListener('click', likeCard)
 
     // слушатель удалялки
-    deleteButton.addEventListener('click', deletePopup)
+    deleteButton.addEventListener('click', deleteCard)
 
     // Слушатель открытия каринки
-    elementsTemplateClone.querySelector('.element__image').addEventListener('click', () => openPopupImage(name, link)) //функцияОткрытияКартинки
+    elementsTemplateClone.querySelector('.element__image').addEventListener('click', () => openPopupImage(name, link, alt)) //функцияОткрытияКартинки
 
-    list.append(elementsTemplateClone);
     return elementsTemplateClone
 }
 
 //функцияОткрытияКартинки
 function openPopupImage(name, link, alt) {
     const popupOpenImageElement = document.querySelector(".popup_type_image");
-    const popupOpenImageContainer = popupOpenImageElement.querySelector(".popup__image-cntr");
     const popupOpenImage = popupOpenImageElement.querySelector(".popup__image");
     const popupOpenImageText = popupOpenImageElement.querySelector(".popup__text");
     const popupCloseImageContainer = popupOpenImageElement.querySelector(".popup__close_image-cls");
 
     // разбираем данные, кладём их в попап, открывает попап с картинкой
     popupOpenImageElement.querySelector('.popup__image').src = link;
+    popupOpenImageElement.querySelector('.popup__image').alt = name;
     popupOpenImageElement.querySelector('.popup__text').textContent = name
 
-    popupOpenImageElement.classList.add('popup_opened')
+    openPopup(popupOpenImageElement)
 
     popupCloseImageContainer.addEventListener("click", () => closePopup(popupOpenImageElement));
 }
 
 //Функция создания карточки
-function handleSubmit(evt) {
+function handleFormSubmitAdd(evt) {
     evt.preventDefault();
     const elementsTemplateClone = elementsTemplate.querySelector('.element').cloneNode(true);
     const newCard = createCard(nameAddInput.value, jobAddInput.value);
-    list.append(newCard)
+    formElementAdd.reset();
+    listCard.prepend(newCard)
     closePopup(popupAddElement)
-    return handleSubmit
 }
-
-buttonCreateInput.addEventListener('click', () => formElementAdd.addEventListener('submit', handleSubmit));
+formElementAdd.addEventListener('submit', handleFormSubmitAdd);
 
 // Функция лайка
-function likePopup(evt) {
+function likeCard(evt) {
     evt.target.classList.toggle('element__like-button_active')
 };
 
 //Функция удаления
-function deletePopup(evt) {
+function deleteCard(evt) {
     const card = evt.target.closest('.element')
     card.remove()
 };
-
-//////////////////////////////////////
-
-
