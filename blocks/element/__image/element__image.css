@@ -4,6 +4,8 @@
     border-radius: 10px;
     cursor: pointer;
     background-color: black;
+    color: white;
+    word-wrap: break-word;
 }
 
 @media screen and (max-width: 750px) {
