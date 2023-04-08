@@ -12,6 +12,7 @@ const profileEditButtonElement = profileButtonElement.querySelector(".profile__e
 const profileAddButtonElement = profileButtonElement.querySelector(".profile__add-button");
 
 
+
 // Находим поля формы в DOM
 const formElementEdit = popupEditElement.querySelector(".form");
 const formElementAdd = popupAddElement.querySelector(".form");
@@ -79,6 +80,8 @@ function handleFormSubmitEdit(evt) {
     nameTitle.textContent = nameEditInput.value;
     jobSubtitle.textContent = jobEditInput.value;
     formElementEdit.reset();
+    const formButtonEdit = formElementEdit.querySelector(".popup__saved-button")
+    disableButton(formButtonEdit, validationConfig)
     closePopup(popupEditElement)
    
 }
@@ -166,6 +169,8 @@ function handleFormSubmitAdd(evt) {
     const newCard = createCard(nameAddInput.value, jobAddInput.value);
     formElementAdd.reset();
     listCard.prepend(newCard)
+    const formButtonAdd = formElementAdd.querySelector(".popup__saved-button")
+    disableButton(formButtonAdd, validationConfig)
     closePopup(popupAddElement)
 }
 formElementAdd.addEventListener('submit', handleFormSubmitAdd);
@@ -174,18 +179,8 @@ formElementAdd.addEventListener('submit', handleFormSubmitAdd);
 function likeCard(evt) {
     evt.target.classList.toggle('element__like-button_active')
 };
-
 //Функция удаления
 function deleteCard(evt) {
     const card = evt.target.closest('.element')
     card.remove()
 };
-
-// Рализуем отправление форм через кнопку Enter
-/*function keyHandler(evt){
-    if(evt.key === "Enter")
-    createCard(name, link, alt)
-}
-
-nameAddInput.addEventListener('keydown', keyHandler)
-jobAddInput.addEventListener('keydown', keyHandler) */
