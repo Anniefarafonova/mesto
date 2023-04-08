@@ -7,7 +7,6 @@ const validationConfig = ({
     errorClass: 'error__opened'
   }); 
 
-
  //функция запуска вылидации
  function enableValidation({formSelector, ...rest}) {
     console.log(rest)
@@ -20,7 +19,7 @@ const validationConfig = ({
   })
  }
 
-//функция листенер
+//функция слушателей
    function setEventListeners (formElement, {inputSelector, submitButtonSelector, ...rest}) {
     console.log(rest)
     const inputList = Array.from(formElement.querySelectorAll(inputSelector));
@@ -34,7 +33,6 @@ const validationConfig = ({
             } else {
                 enableButton(formButton, rest)
             }
-            
         });
     })
 };
@@ -60,7 +58,6 @@ const validationConfig = ({
    const hideInputError = (input, {inputErrorClass}) => {
 input.classList.remove(inputErrorClass);
    };
-
  
   const hasInvalidInput = (formInput) => {
     return formInput.some(item => !item.validity.valid)
