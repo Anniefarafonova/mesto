@@ -1,0 +1,9 @@
+.error__opened{
+    opacity: 1;
+    visibility: visible;
+    max-width: 164px;
+    font-weight: 400;
+    line-height: 15px;
+    color: #FF0000;
+    font-size: 12px;
+}
