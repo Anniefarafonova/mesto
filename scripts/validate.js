@@ -4,7 +4,7 @@ const validationConfig = ({
     submitButtonSelector: '.popup__saved-button',
     inactiveButtonClass: 'popup__saved-button_disabled',
     inputErrorClass: 'form__item-error',
-    errorClass: 'error__opened'
+    errorClass: 'error_opened'
   }); 
 
  //функция запуска вылидации
@@ -12,16 +12,15 @@ const validationConfig = ({
     console.log(rest)
     const forms = Array.from(document.querySelectorAll(formSelector));
     forms.forEach(function (formElement) {
-      formElement.addEventListener('submit', function (evt) {
-     evt.preventDefault();
-    });     
+    //  formElement.addEventListener('submit', function (evt) {
+    //  evt.preventDefault();
+    // });     
      setEventListeners (formElement, rest)         
   })
  }
 
 //функция слушателей
    function setEventListeners (formElement, {inputSelector, submitButtonSelector, ...rest}) {
-    console.log(rest)
     const inputList = Array.from(formElement.querySelectorAll(inputSelector));
     const formButton = formElement.querySelector(submitButtonSelector)
    disableButton(formButton, rest)
@@ -50,30 +49,30 @@ const validationConfig = ({
     }
 
  // Функция  поля c ошибкой
- const showInputError = (input, {inputErrorClass}) => {
+ const showInputError = (input, {inputErrorClass, errorClass, rest}) => {
+    const formError = document.querySelector(`#${input.id}-error`);
   input.classList.add(inputErrorClass);
-  console.log(input)
+  formError.textContent = input.validationMessage
+  formError.classList.add(errorClass);
    };
  // Функция  поля без ошибки
-   const hideInputError = (input, {inputErrorClass}) => {
+   const hideInputError = (input, {inputErrorClass, errorClass, ...rest}) => {
+    const formError = document.querySelector(`#${input.id}-error`);
 input.classList.remove(inputErrorClass);
+formError.textContent = ""
+formError.classList.remove(errorClass);
    };
  
   const hasInvalidInput = (formInput) => {
     return formInput.some(item => !item.validity.valid)
     }
 
-    const checkInputValidity = ( input, {errorClass, ...rest}) => {
-      const formError = document.querySelector(`#${input.id}-error`);
-      console.log(formError)
-      console.log(rest)
+    const checkInputValidity = ( input, {...rest}) => {
+    //  const checkInputValidity = ( input, {errorClass, ...rest}) => {
+    //   const formError = document.querySelector(`#${input.id}-error`);
       if(input.checkValidity()){
-          formError.textContent = ""
-          formError.classList.remove(errorClass);
           hideInputError(input, rest) 
       } else{
-          formError.textContent = input.validationMessage
-          formError.classList.add(errorClass);
           showInputError(input, rest)
       }
   }

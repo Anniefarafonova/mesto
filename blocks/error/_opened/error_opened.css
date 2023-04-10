@@ -1,9 +1,11 @@
-.error__opened{
+.error_opened{
     opacity: 1;
     visibility: visible;
-    max-width: 164px;
+    max-width: 358px;
     font-weight: 400;
     line-height: 15px;
     color: #FF0000;
     font-size: 12px;
+    display: flex;
+    flex-direction: column;
 }
