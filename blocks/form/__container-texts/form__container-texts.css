@@ -1,7 +1,7 @@
 .form__container-texts {
     border: none;
     max-width: 358px;
-    margin: 0 auto;
+    margin: 0 0 13px;
     padding: 0;
 }
 @media screen and (max-width: 435px) {

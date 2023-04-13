@@ -7,3 +7,8 @@
     color: #FF0000;
     font-size: 12px;
 }
+@media screen and (max-width: 435px) {
+    .error_opened{
+        max-width: 238px;
+    }
+}
