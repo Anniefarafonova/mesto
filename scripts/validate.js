@@ -9,12 +9,8 @@ const validationConfig = ({
 
  //функция запуска вылидации
  function enableValidation({formSelector, ...rest}) {
-    console.log(rest)
     const forms = Array.from(document.querySelectorAll(formSelector));
-    forms.forEach(function (formElement) {
-    //  formElement.addEventListener('submit', function (evt) {
-    //  evt.preventDefault();
-    // });     
+    forms.forEach(function (formElement) {     
      setEventListeners (formElement, rest)         
   })
  }
@@ -68,8 +64,6 @@ formError.classList.remove(errorClass);
     }
 
     const checkInputValidity = ( input, {...rest}) => {
-    //  const checkInputValidity = ( input, {errorClass, ...rest}) => {
-    //   const formError = document.querySelector(`#${input.id}-error`);
       if(input.checkValidity()){
           hideInputError(input, rest) 
       } else{
