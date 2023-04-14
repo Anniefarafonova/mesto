@@ -142,7 +142,6 @@ function openPopupImage(name, link) {
     popupOpenImageElement.querySelector('.popup__image').src = link;
     popupOpenImageElement.querySelector('.popup__image').alt = name;
     popupOpenImageElement.querySelector('.popup__text').textContent = name
-
     openPopup(popupOpenImageElement)
 }
 
