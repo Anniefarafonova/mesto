@@ -30,8 +30,6 @@ const jobSubtitle = profileButtonElement.querySelector(".profile__subtitle");
 function openPopup(popup) {
     popup.classList.add("popup_opened")
     document.addEventListener("keydown", closePopupCloseEsc)
-    nameTitle.value = nameEditInput.textContent
- jobSubtitle.value = jobEditInput.textContent
 };
 //функция закрытия попапа
 function closePopup(popup) {
@@ -42,7 +40,7 @@ function closePopup(popup) {
 //Закрытия попапа нажатием на оверлей
 function closeButtonByClickOnOverlay(event) {
     if (event.target === event.currentTarget) {
-        closePopup(event.target, event.currentTarget)
+        closePopup(event.target)
     }
 }
 
@@ -108,6 +106,8 @@ const initialCards = [
 const elementsTemplate = document.querySelector('#elements-template').content;
 const listCard = document.querySelector('.elements__list-template')
 const popupCloseImageContainer = popupOpenImageElement.querySelector(".popup__close_image-cls");
+const popupOpenImageText = popupOpenImageElement.querySelector(".popup__text");
+const popupOpenImage = popupOpenImageElement.querySelector(".popup__image");
 
 
 initialCards.forEach(item => listCard.append(createCard(item.name, item.link)));
@@ -138,17 +138,12 @@ function createCard(name, link) {
 
 //функцияОткрытияКартинки
 function openPopupImage(name, link) {
-    const popupOpenImage = popupOpenImageElement.querySelector(".popup__image");
-    const popupOpenImageText = popupOpenImageElement.querySelector(".popup__text");
-
     // разбираем данные, кладём их в попап, открывает попап с картинкой
     popupOpenImageElement.querySelector('.popup__image').src = link;
     popupOpenImageElement.querySelector('.popup__image').alt = name;
     popupOpenImageElement.querySelector('.popup__text').textContent = name
 
     openPopup(popupOpenImageElement)
-
-    popupCloseImageContainer.addEventListener("click", () => closePopup(popupOpenImageElement));
 }
 
 //Функция создания карточки
@@ -162,6 +157,7 @@ function handleFormSubmitAdd(evt) {
     closePopup(popupAddElement)
 }
 formElementAdd.addEventListener('submit', handleFormSubmitAdd);
+popupCloseImageContainer.addEventListener("click", () => closePopup(popupOpenImageElement));
 
 // Функция лайка
 function likeCard(evt) {
