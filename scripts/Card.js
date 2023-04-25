@@ -116,7 +116,6 @@ initialCards.forEach((item) => {
     // Добавляем в DOM
     document.querySelector('.elements__list-template').append(cardElement);
 });
-import { openPopup, closePopup } from './index.js'
 
 
 const formElementAdd = popupAddElement.querySelector(".form");
