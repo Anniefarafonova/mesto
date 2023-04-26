@@ -3,8 +3,9 @@ import Card from "./Card.js"
 const popupEditElement = document.querySelector(".popup_type_edit");
 const popupAddElement = document.querySelector(".popup_type_add");
 const popupOpenImageElement = document.querySelector(".popup_type_image");
-const popupEditCloseButtonElement = popupEditElement.querySelector(".popup__close");
-const popupAddCloseButtonElement = popupAddElement.querySelector(".popup__close");
+
+const popupOpenImageText = popupOpenImageElement.querySelector(".popup__text");
+const popupOpenImage = popupOpenImageElement.querySelector(".popup__image");
 
 // Находим кнопки
 const profileButtonElement = document.querySelector(".profile");
@@ -13,22 +14,17 @@ const profileAddButtonElement = profileButtonElement.querySelector(".profile__ad
 
 // Находим поля формы в DOM
 const formElementEdit = popupEditElement.querySelector(".form");
- const formElementAdd = popupAddElement.querySelector(".form");
+const formElementAdd = popupAddElement.querySelector(".form");
 
 const nameEditInput = formElementEdit.querySelector(".form__item_type_name");
 const jobEditInput = formElementEdit.querySelector(".form__item_type_job");
-
-const nameAddInput = popupAddElement.querySelector(".form__item_type_name");
-const jobAddInput = popupAddElement.querySelector(".form__item_type_job");
-
-//export{ nameAddInput, jobAddInput}
-
 
 const buttonSavedInput = formElementEdit.querySelector(".popup__saved-button");
 const buttonCreateInput = popupAddElement.querySelector(".popup__saved-button");
 
 const nameTitle = profileButtonElement.querySelector(".profile__title");
 const jobSubtitle = profileButtonElement.querySelector(".profile__subtitle");
+
 
 //функция открытия попапа
 export function openPopup(popup) {
@@ -52,20 +48,21 @@ function closeButtonByClickOnOverlay(event) {
 function closePopupCloseEsc(evt) {
     if (evt.key === "Escape") {
         const popup = document.querySelector(".popup_opened");
-       closePopup(popup)
+        closePopup(popup)
     }
 }
 
+const buttonCloseList = document.querySelectorAll('.popup__close');
+console.log(buttonCloseList)
+buttonCloseList.forEach(btn => {
+    const popup = btn.closest('.popup');
+    popup.addEventListener('mousedown', closeButtonByClickOnOverlay);
+    btn.addEventListener('click', () => closePopup(popup));
+})
 
-
-popupEditElement.addEventListener("mousedown", closeButtonByClickOnOverlay)
-popupAddElement.addEventListener("mousedown", closeButtonByClickOnOverlay)
-popupOpenImageElement.addEventListener("mousedown", closeButtonByClickOnOverlay)
 
 profileEditButtonElement.addEventListener("click", () => openPopup(popupEditElement));
 profileAddButtonElement.addEventListener("click", () => openPopup(popupAddElement));
-popupEditCloseButtonElement.addEventListener("click", () => closePopup(popupEditElement));
-popupAddCloseButtonElement.addEventListener("click", () => closePopup(popupAddElement));
 formElementEdit.addEventListener('submit', handleFormSubmitEdit);
 
 
@@ -78,5 +75,13 @@ function handleFormSubmitEdit(evt) {
 profileEditButtonElement.addEventListener("click", function () {
     nameEditInput.value = nameTitle.textContent;
     jobEditInput.value = jobSubtitle.textContent;
-       openPopup(popupEditElement);
-     });
+    openPopup(popupEditElement);
+});
+import { validationConfig } from './FormValidator.js'
+import { FormValidator } from './FormValidator.js'
+//Для каждой создаем экремпляр класса валидатора. Экземпляр или инстанс - это результат вызова new FormValidator()
+const form1Validator = new FormValidator(validationConfig, formElementEdit)
+const form2Validator = new FormValidator(validationConfig, formElementAdd)
+//  //"Включаем" подписки на изменения в инпутах
+form1Validator.enableValidation()
+form2Validator.enableValidation()
