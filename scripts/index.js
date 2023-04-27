@@ -20,16 +20,30 @@ const nameEditInput = formElementEdit.querySelector(".form__item_type_name");
 const jobEditInput = formElementEdit.querySelector(".form__item_type_job");
 
 const buttonSavedInput = formElementEdit.querySelector(".popup__saved-button");
-const buttonCreateInput = popupAddElement.querySelector(".popup__saved-button");
+export const buttonCreateInput = popupAddElement.querySelector(".popup__saved-button");
 
 const nameTitle = profileButtonElement.querySelector(".profile__title");
 const jobSubtitle = profileButtonElement.querySelector(".profile__subtitle");
+
+
+const listCard = document.querySelector('.elements__list-template')
+const nameAddInput = popupAddElement.querySelector(".form__item_type_name");
+const jobAddInput = popupAddElement.querySelector(".form__item_type_job");
+
+
+// export function handleCardClick(name, link) {
+//     popupOpenImage.src = link;
+//     popupOpenImageText.textContent = name
+//     popupOpenImage.alt = name
+//     openPopup(popupOpenImageElement)
+// }
 
 
 //функция открытия попапа
 export function openPopup(popup) {
     popup.classList.add("popup_opened")
     document.addEventListener("keydown", closePopupCloseEsc)
+   formAddValidator.resetValidation()
 };
 //функция закрытия попапа
 export function closePopup(popup) {
@@ -51,7 +65,6 @@ function closePopupCloseEsc(evt) {
         closePopup(popup)
     }
 }
-
 const buttonCloseList = document.querySelectorAll('.popup__close');
 console.log(buttonCloseList)
 buttonCloseList.forEach(btn => {
@@ -59,9 +72,6 @@ buttonCloseList.forEach(btn => {
     popup.addEventListener('mousedown', closeButtonByClickOnOverlay);
     btn.addEventListener('click', () => closePopup(popup));
 })
-
-
-profileEditButtonElement.addEventListener("click", () => openPopup(popupEditElement));
 profileAddButtonElement.addEventListener("click", () => openPopup(popupAddElement));
 formElementEdit.addEventListener('submit', handleFormSubmitEdit);
 
@@ -77,11 +87,40 @@ profileEditButtonElement.addEventListener("click", function () {
     jobEditInput.value = jobSubtitle.textContent;
     openPopup(popupEditElement);
 });
+
+
+function handleFormSubmitAdd(evt) {
+    evt.preventDefault();
+    createCard(nameAddInput.value, jobAddInput.value, '.elements-template');
+    formElementAdd.reset();
+    closePopup(popupAddElement)
+}
+
+formElementAdd.addEventListener('submit', handleFormSubmitAdd);
+
+//Функция создания карточки 
+function createCard(name, link, templateSelector) {
+    const cards = new Card(name, link, templateSelector)
+    const cardElement = cards.generateCard()
+    listCard.prepend(cardElement)
+}
+
+import { initialCards } from './Card.js'
+initialCards.forEach(card => {
+    createCard(card.name, card.link, '.elements-template')
+})
+
+
 import { validationConfig } from './FormValidator.js'
 import { FormValidator } from './FormValidator.js'
 //Для каждой создаем экремпляр класса валидатора. Экземпляр или инстанс - это результат вызова new FormValidator()
-const form1Validator = new FormValidator(validationConfig, formElementEdit)
-const form2Validator = new FormValidator(validationConfig, formElementAdd)
+const formEditValidator = new FormValidator(validationConfig, formElementEdit)
+const formAddValidator = new FormValidator(validationConfig, formElementAdd)
+
 //  //"Включаем" подписки на изменения в инпутах
-form1Validator.enableValidation()
-form2Validator.enableValidation()
+formEditValidator.enableValidation()
+formAddValidator.enableValidation()
+
+
+
+

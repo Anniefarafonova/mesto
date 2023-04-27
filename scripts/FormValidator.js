@@ -14,7 +14,14 @@ export class FormValidator {
             this._submitButtonSelector = config.submitButtonSelector,
             this._inactiveButtonClass = config.inactiveButtonClass,
             this._inputErrorClass = config.inputErrorClass,
-            this._errorClass = config.errorClass;
+            this._errorClass = config.errorClass,
+
+            //this._form = Array.from(this.formSelector.querySelectorAll(this._inputSelector))
+            //console.log(this._form)
+            this._inputList = Array.from(this.formSelector.querySelectorAll(this._inputSelector))
+        console.log(this._inputList)
+        this._submitButton = this.formSelector.querySelector(this._submitButtonSelector)
+        console.log(this._submitButton)
     }
 
     // кнопка актив
@@ -23,7 +30,7 @@ export class FormValidator {
         button.removeAttribute("disabled")
     }
     // кнопка неактив
-    _disableButton(button) {
+    disableButton(button) {
         button.classList.add(this._inactiveButtonClass)
         button.setAttribute("disabled", true)
     }
@@ -31,7 +38,6 @@ export class FormValidator {
     // Функция  поля c ошибкой
     _showInputError(input) {
         const formError = document.querySelector(`#${input.id}-error`);
-        console.log(formError)
         input.classList.add(this._inputErrorClass);
         formError.textContent = input.validationMessage
         formError.classList.add(this._errorClass);
@@ -56,31 +62,42 @@ export class FormValidator {
             this._showInputError(input)
         }
     }
-     // //функция слушателей
-     setEventListeners() {
-        const inputList = Array.from(this.formSelector.querySelectorAll(this._inputSelector))
-        console.log(inputList)
-        const formButton = this.formSelector.querySelector(this._submitButtonSelector)
-        console.log(formButton)
-        this._disableButton(formButton)
-        inputList.forEach(input => {
-            input.addEventListener('input', () => {
-                this._checkInputValidity(input)
-                console.log( this._checkInputValidity)
-                if (this._hasInvalidInput(inputList)) {
-                    this._disableButton(formButton)
-                } else {
-                    this._enableButton(formButton)
-                }
-            });
-        })
+    // //функция слушателей
+    setEventListeners() {
+           this.disableButton(this._submitButton)
+            console.log( this.disableButton)
+            this._inputList.forEach(input => {
+                input.addEventListener('input', () => {
+                    this.toggleButtonState();
+                    this._checkInputValidity(input)
+            //         // if (this._hasInvalidInput(this._inputList)) {
+            //         //     this._disableButton(this._submitButton)
+            //         // } else {
+            //         //     this._enableButton(this._submitButton)
+            //         // }
+                });
+            })
     };
-
+    toggleButtonState(){
+    
+        if (this._hasInvalidInput(this._inputList)) {
+            this.disableButton(this._submitButton)
+        } else {
+            (this._enableButton((this._submitButton)))
+        }
+    }
+    
+    resetValidation() {
+        this.toggleButtonState(); 
+  
+        this._inputList.forEach((inputElement) => {
+          this._hideInputError(inputElement)
+        });
+  
+      }
     //   //функция запуска вылидации
     enableValidation() {
         this.setEventListeners()
-        console.log(this.setEventListeners)
     }
 }
 
- 
