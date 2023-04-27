@@ -28,16 +28,10 @@ initialCards.reverse();
 
 import { openPopup, closePopup } from './index.js'
 
-
-const popupOpenImageElement = document.querySelector(".popup_type_image");
-const popupOpenImageText = popupOpenImageElement.querySelector(".popup__text");
-const popupOpenImage = popupOpenImageElement.querySelector(".popup__image");
-
+import {popupOpenImageElement, popupOpenImageText, popupOpenImage } from "./index.js"
 
 // import { handleCardClick } from './index.js'
 
-
-//console.log(handleCardClick)
 export default class Card {
     constructor(name, link, templateSelector) {
         this._name = name;

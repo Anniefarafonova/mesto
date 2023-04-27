@@ -6,6 +6,7 @@ const popupOpenImageElement = document.querySelector(".popup_type_image");
 
 const popupOpenImageText = popupOpenImageElement.querySelector(".popup__text");
 const popupOpenImage = popupOpenImageElement.querySelector(".popup__image");
+export {popupOpenImageElement, popupOpenImageText, popupOpenImage }
 
 // Находим кнопки
 const profileButtonElement = document.querySelector(".profile");
