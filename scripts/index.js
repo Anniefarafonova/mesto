@@ -44,7 +44,7 @@ const jobAddInput = popupAddElement.querySelector(".form__item_type_job");
 export function openPopup(popup) {
     popup.classList.add("popup_opened")
     document.addEventListener("keydown", closePopupCloseEsc)
-   formAddValidator.resetValidation()
+   //formAddValidator.resetValidation()
 };
 //функция закрытия попапа
 export function closePopup(popup) {
@@ -92,9 +92,11 @@ profileEditButtonElement.addEventListener("click", function () {
 
 function handleFormSubmitAdd(evt) {
     evt.preventDefault();
-    createCard(nameAddInput.value, jobAddInput.value, '.elements-template');
+    const cardElement =  createCard(nameAddInput.value, jobAddInput.value, '.elements-template');
+    listCard.prepend(cardElement)
     formElementAdd.reset();
     closePopup(popupAddElement)
+    formAddValidator.resetValidation() 
 }
 
 formElementAdd.addEventListener('submit', handleFormSubmitAdd);
@@ -103,12 +105,14 @@ formElementAdd.addEventListener('submit', handleFormSubmitAdd);
 function createCard(name, link, templateSelector) {
     const cards = new Card(name, link, templateSelector)
     const cardElement = cards.generateCard()
-    listCard.prepend(cardElement)
+    return cardElement
+    
 }
 
 import { initialCards } from './Card.js'
 initialCards.forEach(card => {
-    createCard(card.name, card.link, '.elements-template')
+    const cardElement = createCard(card.name, card.link, '.elements-template')
+    listCard.append(cardElement)
 })
 
 
