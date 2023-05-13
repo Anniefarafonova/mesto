@@ -36,23 +36,15 @@ export const buttonCreateInput = popupAddElement.querySelector(".popup__saved-bu
 const nameTitle = profileButtonElement.querySelector(".profile__title");
 const jobSubtitle = profileButtonElement.querySelector(".profile__subtitle");
 
-
 const listCard = document.querySelector('.elements__list-template')
 const nameAddInput = popupAddElement.querySelector(".form__item_type_name");
 const jobAddInput = popupAddElement.querySelector(".form__item_type_job");
-
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 const popupOpenImageSection = new PopupWithImage(popupOpenImageElement)
 popupOpenImageSection.setEventListeners()
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-///////////////////////////////////////////////////////////////////////////////
 //Попап EDIT
 const config = {
     nameSelector: '.profile__title',
@@ -78,7 +70,6 @@ function profileEditButtonElementFunction() {
     userInfo.getUserInfo();
     editPopupWithForm.open()
 }
-
 /////////////////////////////////////////////////////////////////////////////////////////
 //Попап AD
 //ПРОБЛЕМА С СОБЫТИЕМ//
@@ -107,7 +98,6 @@ function profileAddButtonElementFunction() {
 //     jobSelector: 'profile__subtitle'
 // }
 
-
 ///////////////////////////реализация класса Section//////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 const cardListSelector = '.elements__list-template';
@@ -123,7 +113,6 @@ const cardsListSection = new Section({
     cardListSelector
 );
 cardsListSection.renderItems();
-
 //////////////////////////////////////////////////////////////////////////////////////////
 
 //Для каждой создаем экремпляр класса валидатора. Экземпляр или инстанс - это результат вызова new FormValidator()
