@@ -41,7 +41,9 @@ const nameAddInput = popupAddElement.querySelector(".form__item_type_name");
 const jobAddInput = popupAddElement.querySelector(".form__item_type_job");
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-const popupOpenImageSection = new PopupWithImage(popupOpenImageElement)
+const popupOpenImageElementSelector = ".popup_type_image"
+
+const popupOpenImageSection = new PopupWithImage(popupOpenImageElementSelector)
 popupOpenImageSection.setEventListeners()
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -54,7 +56,8 @@ const userInfo = new UserInfo(config);
 
 console.log(userInfo)
 ///Событие EDIT/////////////////////////
-const editPopupWithForm = new PopupWithForm(popupEditElement, (evt) => {
+const popupEditElementSelector = ".popup_type_edit"
+const editPopupWithForm = new PopupWithForm(popupEditElementSelector, (evt) => {
     evt.preventDefault();
     userInfo.serUserInfo(editPopupWithForm.getInputValues());
     editPopupWithForm.close()
@@ -73,14 +76,14 @@ function profileEditButtonElementFunction() {
 /////////////////////////////////////////////////////////////////////////////////////////
 //Попап AD
 //ПРОБЛЕМА С СОБЫТИЕМ//
-const addtPopupWithForm = new PopupWithForm(popupAddElement, (evt) => {
+const popupAddElementSelector = ".popup_type_add"
+const addtPopupWithForm = new PopupWithForm(popupAddElementSelector, (evt) => {
     evt.preventDefault();
     console.log('open');
     cardsListSection.addItem(cardsListSection.renderer(addtPopupWithForm.getInputValues()))
     addtPopupWithForm.close()
 });
 addtPopupWithForm.setEventListeners()
-console.log(addtPopupWithForm.setEventListeners());
 console.log(addtPopupWithForm.getInputValues());
 
 ///Иконка ADD/////////////////////////
@@ -113,6 +116,7 @@ const cardsListSection = new Section({
     cardListSelector
 );
 cardsListSection.renderItems();
+
 //////////////////////////////////////////////////////////////////////////////////////////
 
 //Для каждой создаем экремпляр класса валидатора. Экземпляр или инстанс - это результат вызова new FormValidator()
