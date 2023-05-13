@@ -1,43 +1,41 @@
 export const initialCards = [
     {
-        name: 'Сахалин',
+        title: 'Сахалин',
         link: 'https://live.staticflickr.com/65535/51664313705_5713791257_k.jpg'
     },
     {
-        name: 'Дагестан',
+        title: 'Дагестан',
         link: 'https://live.staticflickr.com/1958/44368978304_2732b58325_k.jpg'
     },
     {
-        name: 'Иваново',
+        title: 'Иваново',
         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
     },
     {
-        name: 'Камчатка',
+        title: 'Камчатка',
         link: 'https://live.staticflickr.com/65535/48820100532_87a1ceb10d_k.jpg'
     },
     {
-        name: 'Холмогорский район',
+        title: 'Холмогорский район',
         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
     },
     {
-        name: 'Байкал',
+        title: 'Байкал',
         link: 'https://live.staticflickr.com/65535/51421205434_8913f4a1a5_k.jpg'
     }
 ];
-//initialCards.reverse();
 
-import { openPopup, closePopup } from './index.js'
+//import { openPopup, closePopup } from '../pages/index.js'
 
-import {popupOpenImageElement, popupOpenImageText, popupOpenImage } from "./index.js"
+import {popupOpenImageElement, popupOpenImageText, popupOpenImage } from "../pages/index.js"
 
-// import { handleCardClick } from './index.js'
 
 export default class Card {
-    constructor(name, link, templateSelector) {
-        this._name = name;
+constructor(title, link, handleCardClick, templateSelector) {
+        this._name = title;
         this._link = link;
         this._templateSelector = templateSelector;
-        //this.handleCardClick = handleCardClick;
+        this.handleCardClick = handleCardClick;
     }
     _getTemplate() {
         // забираем разметку из HTML и клонируем элемент
@@ -55,6 +53,7 @@ export default class Card {
         this._image = this._element.querySelector('.element__image')
         this._image.alt = this._name;
         this._image.src = this._link;
+
 
         this._detete = this._element.querySelector('.element__delete')
         this._button = this._element.querySelector('.element__like-button')
@@ -74,13 +73,12 @@ export default class Card {
 
     }
     // Функция открытия картинки 
-    _handleOpenPopup() {
-        popupOpenImage.src = this._link;
-        popupOpenImageText.textContent = this._name
-        popupOpenImage.alt = this._name
-        openPopup(popupOpenImageElement)
+    // handleCardClick(){
+    //     this._image.open()
+    // }
+    openImg (){
+        this.handleCardClick(this._name, this._link)
     }
-
     //слушатели
     _setEventListeners() {
         //слушатель лайка
@@ -94,10 +92,13 @@ export default class Card {
         })
 
         // слушатель открытия картинки 
-        this._image.addEventListener('click', () => {
-            this._handleOpenPopup();
-        })
+        // this._image.addEventListener('click', () => {
+        //     this.handleCardClick();
+        // })
 
+          this._image.addEventListener('click', () => {
+            this.openImg()
+          });
         // this._image.addEventListener('click', () => {
         //     this.handleCardClick(this._name, this._link)
         //   });

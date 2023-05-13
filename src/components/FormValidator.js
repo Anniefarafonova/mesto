@@ -19,9 +19,7 @@ export class FormValidator {
             //this._form = Array.from(this.formSelector.querySelectorAll(this._inputSelector))
             //console.log(this._form)
             this._inputList = Array.from(this.formSelector.querySelectorAll(this._inputSelector))
-        console.log(this._inputList)
         this._submitButton = this.formSelector.querySelector(this._submitButtonSelector)
-        console.log(this._submitButton)
     }
 
     // кнопка актив
@@ -65,7 +63,6 @@ export class FormValidator {
     // //функция слушателей
     setEventListeners() {
            this.disableButton(this._submitButton)
-            console.log( this.disableButton)
             this._inputList.forEach(input => {
                 input.addEventListener('input', () => {
                     this.toggleButtonState();
