@@ -7,7 +7,7 @@ import UserInfo from '../components/UserInfo.js'
 import { validationConfig } from '../components/FormValidator.js'
 import { FormValidator } from '../components/FormValidator.js'
 import { initialCards } from '../components/Card.js'
-
+import './index.css'
 // Находим popup
 const popupEditElement = document.querySelector(".popup_type_edit");
 const popupAddElement = document.querySelector(".popup_type_add");
@@ -80,11 +80,11 @@ const popupAddElementSelector = ".popup_type_add"
 const addtPopupWithForm = new PopupWithForm(popupAddElementSelector, (evt) => {
     evt.preventDefault();
     console.log('open');
-    cardsListSection.addItem(cardsListSection.renderer(addtPopupWithForm.getInputValues()))
+    //cardsListSection.addItem(cardsListSection.renderer(addtPopupWithForm.getInputValues()))
+    cardsListSection.renderer(addtPopupWithForm.getInputValues())
     addtPopupWithForm.close()
 });
 addtPopupWithForm.setEventListeners()
-console.log(addtPopupWithForm.getInputValues());
 
 ///Иконка ADD/////////////////////////
 profileAddButtonElement.addEventListener('click', profileAddButtonElementFunction);
@@ -110,6 +110,7 @@ const cardsListSection = new Section({
         const cards = new Card(item.title, item.link, popupOpenImageSection
             .open, '.elements-template')
         const cardElement = cards.generateCard()
+       
         cardsListSection.addItem(cardElement);
     }
 },

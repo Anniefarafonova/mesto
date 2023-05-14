@@ -24,7 +24,7 @@ export const initialCards = [
         link: 'https://live.staticflickr.com/65535/51421205434_8913f4a1a5_k.jpg'
     }
 ];
-
+initialCards.reverse();
 //import { openPopup, closePopup } from '../pages/index.js'
 
 import {popupOpenImageElement, popupOpenImageText, popupOpenImage } from "../pages/index.js"

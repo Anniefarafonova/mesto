@@ -3,7 +3,6 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="./pages/index.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Место</title>
 </head>
@@ -12,7 +11,7 @@
   <div class="page">
     <!-- Начало. Блок header -->
     <header class="header">
-      <img class="header__logo" src="./images/logo.svg" alt="Логотип">
+      <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="Логотип">
     </header>
     <!-- Конец. Блок header -->
 
@@ -20,19 +19,19 @@
       <!-- Начаало Блок profile -->
       <section class="profile">
         <div class="profile__list">
-          <img class="profile__avatar" src="./images/Avatar.svg" alt="обложка">
+          <img class="profile__avatar" src="<%=require('./images/Avatar.svg')%>" alt="обложка">
           <div class="profile__info">
             <div class="profile__text">
               <h1 class="profile__title">Жак-Ив Кусто</h1>
               <button type="button" aria-label="Редактировать" class="profile__edit-button">
-                <img src="./images/Vector.svg " class="profile__edit-button-img" alt="знак редактирования">
+                <img src="<%=require('./images/Vector.svg')%>" class="profile__edit-button-img" alt="знак редактирования">
               </button>
             </div>
             <p class="profile__subtitle">Исследователь океана</p>
           </div>
         </div>
         <button type="button" aria-label="Добавить" class="profile__add-button">
-          <img src="./images/add_icon.svg" class="profile__add-button-img" alt="знак добавить">
+          <img src="<%=require('./images/add_icon.svg')%>" class="profile__add-button-img" alt="знак добавить">
         </button>
       </section>
       <!-- Конец. Блок profile -->
@@ -108,18 +107,6 @@
       </div>
     </article>
   </template>
-
-
-  <script type="module" src="./pages/index.js"></script>
-  <script type="module" src="./components/Card.js"></script>
-  <script type="module" src="./components/FormValidator.js"></script>
-  <script type="module" src="./components/Popup.js"></script>
-  <script type="module" src="./components/PopupWithForm.js"></script>
-  <script type="module" src="./components/PopupWithImage.js"></script>
-  <script type="module" src="./components/Section.js"></script> 
-  <script type="module" src="./components/UserInfo.js"></script>
-
-
 </body>
 
 </html>
