@@ -1,13 +1,13 @@
 import Card from "../components/Card.js"
 import Section from '../components/Section.js'
-import Popup from '../components/Popup.js'
 import PopupWithImage from '../components/PopupWithImage.js'
 import PopupWithForm from '../components/PopupWithForm.js'
 import UserInfo from '../components/UserInfo.js'
 import { validationConfig } from '../components/FormValidator.js'
 import { FormValidator } from '../components/FormValidator.js'
-import { initialCards } from '../components/Card.js'
+import { initialCards } from '../utilss/constants.js'
 import './index.css'
+initialCards.reverse();
 // Находим popup
 const popupEditElement = document.querySelector(".popup_type_edit");
 const popupAddElement = document.querySelector(".popup_type_add");
@@ -15,7 +15,7 @@ const popupOpenImageElement = document.querySelector(".popup_type_image");
 
 const popupOpenImageText = popupOpenImageElement.querySelector(".popup__text");
 const popupOpenImage = popupOpenImageElement.querySelector(".popup__image");
-export { popupOpenImageElement, popupOpenImageText, popupOpenImage }
+//export { popupOpenImageElement, popupOpenImageText, popupOpenImage }
 
 // Находим кнопки
 const profileButtonElement = document.querySelector(".profile");
@@ -40,7 +40,6 @@ const listCard = document.querySelector('.elements__list-template')
 const nameAddInput = popupAddElement.querySelector(".form__item_type_name");
 const jobAddInput = popupAddElement.querySelector(".form__item_type_job");
 ///////////////////////////////////////////////////////////////////////////////////////////
-
 const popupOpenImageElementSelector = ".popup_type_image"
 
 const popupOpenImageSection = new PopupWithImage(popupOpenImageElementSelector)
@@ -53,37 +52,33 @@ const config = {
     jobSelector: '.profile__subtitle'
 }
 const userInfo = new UserInfo(config);
-
-console.log(userInfo)
 ///Событие EDIT/////////////////////////
 const popupEditElementSelector = ".popup_type_edit"
-const editPopupWithForm = new PopupWithForm(popupEditElementSelector, (evt) => {
-    evt.preventDefault();
-    userInfo.serUserInfo(editPopupWithForm.getInputValues());
-    editPopupWithForm.close()
-});
-editPopupWithForm.setEventListeners()
-console.log(editPopupWithForm.setEventListeners());
+const editPopupWithForm = new PopupWithForm(popupEditElementSelector, formSubmitEdit)
 
+function formSubmitEdit(item) {
+    userInfo.serUserInfo(item);
+    editPopupWithForm.close()
+}
+editPopupWithForm.setEventListeners()
 ///Иконка EDIT/////////////////////////
 profileEditButtonElement.addEventListener('click', profileEditButtonElementFunction);
 function profileEditButtonElementFunction() {
-    editPopupWithForm.open(userInfo.getUserInfo());
-    console.log(editPopupWithForm.open(userInfo.getUserInfo()));
-    userInfo.getUserInfo();
+    editPopupWithForm.setInputsValues(userInfo.getUserInfo())
+    console.log(userInfo.getUserInfo());
     editPopupWithForm.open()
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 //Попап AD
 //ПРОБЛЕМА С СОБЫТИЕМ//
 const popupAddElementSelector = ".popup_type_add"
-const addtPopupWithForm = new PopupWithForm(popupAddElementSelector, (evt) => {
-    evt.preventDefault();
+const addtPopupWithForm = new PopupWithForm(popupAddElementSelector, formSubmitAdd)
+
+function formSubmitAdd(item) {
     console.log('open');
-    //cardsListSection.addItem(cardsListSection.renderer(addtPopupWithForm.getInputValues()))
-    cardsListSection.renderer(addtPopupWithForm.getInputValues())
+    cardsListSection.addItem(createCard(item));
     addtPopupWithForm.close()
-});
+};
 addtPopupWithForm.setEventListeners()
 
 ///Иконка ADD/////////////////////////
@@ -91,27 +86,22 @@ profileAddButtonElement.addEventListener('click', profileAddButtonElementFunctio
 function profileAddButtonElementFunction() {
     addtPopupWithForm.open()
 }
+
 /////////////////////////////////////////////////////////////////////////////////////////
-
-// const userInfo = new UserInfo(nameEditInput, jobEditInput );
-// /////Попап EDIT/////////////////////////
-// //const editPopupWithForm = new PopupWithForm(edd, formSubmitEdit);
-// const config = {
-//     nameSelector: 'profile__title',
-//     jobSelector: 'profile__subtitle'
-// }
-
 ///////////////////////////реализация класса Section//////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
+function createCard(item) {
+    const cards = new Card(item.title, item.link, popupOpenImageSection
+        .open, '.elements-template');
+    const cardElement = cards.generateCard()
+    return cardElement;
+}
+
 const cardListSelector = '.elements__list-template';
 const cardsListSection = new Section({
     data: initialCards,
     renderer: (item) => {
-        const cards = new Card(item.title, item.link, popupOpenImageSection
-            .open, '.elements-template')
-        const cardElement = cards.generateCard()
-       
-        cardsListSection.addItem(cardElement);
+        cardsListSection.addItem(createCard(item));
     }
 },
     cardListSelector

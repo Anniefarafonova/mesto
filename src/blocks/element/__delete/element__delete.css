@@ -1,5 +1,5 @@
 .element__delete{
-    background-image: url("../../../images/delete.svg" );
+    background-image: url("../../../images/delete.svg" ); 
     position: relative;
     left: 245px;
     bottom: 270px;

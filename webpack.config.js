@@ -22,31 +22,32 @@ module.exports = {
                 test: /\.(js)$/,
                 exclude: /node_modules/,
                 use: {
-                  loader: 'babel-loader'
+                    loader: 'babel-loader'
                 }
-              },
-                {
-                  test: /\.css$/i,
-                  use: [
+            },
+            {
+                test: /\.css$/i,
+                use: [
                     MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                         // добавьте объект options
                         options: { importLoaders: 1 }
-                      }, 
+                    },
                     "postcss-loader"
                 ],
-                },
+            },
             {
-                test: /\.(svg)$/i,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            esModule: false,
-                        }
-                    },
-                ],
+                test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
+                type: "asset/resource",
+                // use: [
+                //     {
+                //         loader: 'file-loader',
+                //         options: {
+                //             esModule: false,
+                //         }
+                //     },
+                // ],
             },
         ],
     },

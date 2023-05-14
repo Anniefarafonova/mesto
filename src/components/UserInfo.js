@@ -1,19 +1,31 @@
 export default class UserInfo {
-            constructor(config) {
+        constructor(config) {
                 this._profileName = document.querySelector(config.nameSelector);
                 this._profileText = document.querySelector(config.jobSelector);
-                this._nameEditInput = document.querySelector(".form__item_type_name");
-                this._jobEditInput = document.querySelector(".form__item_type_job");
+               // this._nameEditInput = document.querySelector(".form__item_type_name");
+               // this._jobEditInput = document.querySelector(".form__item_type_job");
             
             }
         
-            getUserInfo() {
-                return {
-                    firstname:  this._nameEditInput.value = this._profileName.textContent,
-                    description: this._jobEditInput.value = this._profileText.textContent
+        getUserInfo() {
+            return {
+                firstname:  this._profileName.textContent,
+                description: this._profileText.textContent
+                    // firstname:  this._nameEditInput.value = this._profileName.textContent, 
+                    // description: this._jobEditInput.value = this._profileText.textContent 
                 }
             }
-            serUserInfo(dataUser) {
+
+            getUserInfos(item) {
+                        return {
+                        name: this._inputName.value = this._profileName.textContent,
+                        text: this._inputText.value = this._profileText.textContent
+                        }
+                    }
+
+
+
+        serUserInfo(dataUser) {
                 this._profileName.textContent = dataUser.firstname
                 this._profileText.textContent = dataUser.description
              }
