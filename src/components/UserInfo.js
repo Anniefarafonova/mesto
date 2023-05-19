@@ -16,14 +16,6 @@ export default class UserInfo {
                 }
             }
 
-            getUserInfos(item) {
-                        return {
-                        name: this._inputName.value = this._profileName.textContent,
-                        text: this._inputText.value = this._profileText.textContent
-                        }
-                    }
-
-
 
         serUserInfo(dataUser) {
                 this._profileName.textContent = dataUser.firstname

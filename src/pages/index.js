@@ -68,6 +68,15 @@ function profileEditButtonElementFunction() {
     console.log(userInfo.getUserInfo());
     editPopupWithForm.open()
 }
+
+// function profileEditButtonElementFunction() {
+//     editPopupWithForm.open()
+//     const profileData  = userInfo.getUserInfo() // Вот тут в переменную profileData положили объект, тот что ты консольлогируешь на скриншоте 
+//   console.log(profileData);
+//     nameEditInput.value = profileData.firstname
+//     jobEditInput.value = profileData.description
+//   }
+  
 /////////////////////////////////////////////////////////////////////////////////////////
 //Попап AD
 //ПРОБЛЕМА С СОБЫТИЕМ//
