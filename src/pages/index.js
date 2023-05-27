@@ -7,10 +7,10 @@ import Api from '../components/Api.js'
 
 import { validationConfig } from '../components/FormValidator.js'
 import { FormValidator } from '../components/FormValidator.js'
-import { initialCards } from '../utilss/constants.js'
+//import { initialCards } from '../utilss/constants.js'
 
 import './index.css'
-initialCards.reverse();
+//initialCards.reverse();
 
 const api = new Api({
     baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-66',
