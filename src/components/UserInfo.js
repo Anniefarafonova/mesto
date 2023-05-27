@@ -2,8 +2,7 @@ export default class UserInfo {
         constructor(config) {
                 this._profileName = document.querySelector(config.nameSelector);
                 this._profileText = document.querySelector(config.jobSelector);
-               // this._nameEditInput = document.querySelector(".form__item_type_name");
-               // this._jobEditInput = document.querySelector(".form__item_type_job");
+                this._profileAvatar = document.querySelector(config.avatarSelector);
             
             }
         
@@ -11,15 +10,14 @@ export default class UserInfo {
             return {
                 firstname:  this._profileName.textContent,
                 description: this._profileText.textContent
-                    // firstname:  this._nameEditInput.value = this._profileName.textContent, 
-                    // description: this._jobEditInput.value = this._profileText.textContent 
                 }
             }
 
 
-        serUserInfo(dataUser) {
-                this._profileName.textContent = dataUser.firstname
-                this._profileText.textContent = dataUser.description
+        serUserInfo({avatar, firstname, description}) {
+                this._profileAvatar.src = avatar
+                this._profileName.textContent = firstname
+                this._profileText.textContent = description
              }
         
         }

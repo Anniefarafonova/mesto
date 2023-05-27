@@ -3,11 +3,33 @@ import Section from '../components/Section.js'
 import PopupWithImage from '../components/PopupWithImage.js'
 import PopupWithForm from '../components/PopupWithForm.js'
 import UserInfo from '../components/UserInfo.js'
+import Api from '../components/Api.js'
+
 import { validationConfig } from '../components/FormValidator.js'
 import { FormValidator } from '../components/FormValidator.js'
 import { initialCards } from '../utilss/constants.js'
+
 import './index.css'
 initialCards.reverse();
+
+const api = new Api({
+    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-66',
+    headers: {
+      authorization: '26786be3-fed9-4d83-9ae2-1348eee1b7d5',
+      'Content-Type': 'application/json'
+    }
+  }); 
+
+//   console.log(api)
+
+
+//   api.getCard()
+//     .then(res => console.log(res))
+
+//   api.getInfo()
+//     .then(res => console.log(res))
+
+
 // Находим popup
 const popupEditElement = document.querySelector(".popup_type_edit");
 const popupAddElement = document.querySelector(".popup_type_add");
@@ -33,8 +55,8 @@ const jobEditInput = formElementEdit.querySelector(".form__item_type_job");
 const buttonSavedInput = formElementEdit.querySelector(".popup__saved-button");
 export const buttonCreateInput = popupAddElement.querySelector(".popup__saved-button");
 
-const nameTitle = profileButtonElement.querySelector(".profile__title");
-const jobSubtitle = profileButtonElement.querySelector(".profile__subtitle");
+// const nameTitle = profileButtonElement.querySelector(".profile__title");
+// const jobSubtitle = profileButtonElement.querySelector(".profile__subtitle");
 
 const listCard = document.querySelector('.elements__list-template')
 const nameAddInput = popupAddElement.querySelector(".form__item_type_name");
@@ -49,7 +71,8 @@ popupOpenImageSection.setEventListeners()
 //Попап EDIT
 const config = {
     nameSelector: '.profile__title',
-    jobSelector: '.profile__subtitle'
+    jobSelector: '.profile__subtitle',
+    avatarSelector: '.profile__avatar'
 }
 const userInfo = new UserInfo(config);
 ///Событие EDIT/////////////////////////
@@ -100,23 +123,29 @@ function profileAddButtonElementFunction() {
 ///////////////////////////реализация класса Section//////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 function createCard(item) {
-    const cards = new Card(item.title, item.link, popupOpenImageSection
+    const cards = new Card(item.name, item.link, popupOpenImageSection
         .open, '.elements-template');
     const cardElement = cards.generateCard()
     return cardElement;
 }
 
 const cardListSelector = '.elements__list-template';
-const cardsListSection = new Section({
-    data: initialCards,
-    renderer: (item) => {
+// const cardsListSection = new Section({
+//     data: initialCards,
+//     renderer: (item) => {
+//         cardsListSection.addItem(createCard(item));
+//     }
+// },
+//     cardListSelector
+// );
+// cardsListSection.renderItems();
+
+const cardsListSection = new Section((item) => {
         cardsListSection.addItem(createCard(item));
-    }
 },
     cardListSelector
 );
-cardsListSection.renderItems();
-
+//cardsListSection.renderItems(initialCards)
 //////////////////////////////////////////////////////////////////////////////////////////
 
 //Для каждой создаем экремпляр класса валидатора. Экземпляр или инстанс - это результат вызова new FormValidator()
@@ -127,3 +156,13 @@ const formAddValidator = new FormValidator(validationConfig, formElementAdd)
 formEditValidator.enableValidation()
 formAddValidator.enableValidation()
 
+Promise.all([api.getInfo(), api.getCard()])
+.then(([dataUser, dataCard]) => {
+     console.log(dataCard);
+     dataCard.forEach(element => {
+        element.myid = dataUser._id
+     });
+    console.log(dataUser);
+    userInfo.serUserInfo({ avatar: dataUser.avatar, firstname: dataUser.name, description: dataUser.about})
+    cardsListSection.renderItems(dataCard)
+})
