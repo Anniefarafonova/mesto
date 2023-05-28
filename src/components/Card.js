@@ -4,6 +4,7 @@ constructor(name, link, handleCardClick, templateSelector) {
         this._link = link;
         this._templateSelector = templateSelector;
         this.handleCardClick = handleCardClick;
+        // this._handleDeletCard = handleDeletCard;
     }
     _getTemplate() {
         // забираем разметку из HTML и клонируем элемент
@@ -60,17 +61,15 @@ constructor(name, link, handleCardClick, templateSelector) {
             this._deleteCard()
         })
 
-        // слушатель открытия картинки 
-        // this._image.addEventListener('click', () => {
-        //     this.handleCardClick();
-        // })
+   
 
           this._image.addEventListener('click', () => {
             this.openImg()
           });
-        // this._image.addEventListener('click', () => {
-        //     this.handleCardClick(this._name, this._link)
-        //   });
+        
+        // this._detete.addEventListener('click', () => {
+        //     this._handleDeletCard()
+        // })
 
     }
 }
