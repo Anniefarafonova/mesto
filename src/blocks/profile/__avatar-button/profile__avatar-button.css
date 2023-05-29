@@ -6,6 +6,14 @@
   background: none;
   border: none;
 }
+.profile__avatar-button:hover {
+  background-image: url("../../../images/red_avatar.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: rgba(0, 0, 0, .8);
+  background-size: 24px;
+ 
+} 
 
 /* .profile__avatar-button::before {
   content: '';
@@ -30,11 +38,3 @@ opacity: 0;
  
 }  */
 
-.profile__avatar-button:hover {
-  background-image: url("../../../images/red_avatar.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: rgba(0, 0, 0, .8);
-  background-size: 24px;
- 
-} 
