@@ -44,6 +44,7 @@ export default class Card {
     generateCard() {
         this._element = this._getTemplate();
         this._counter = this._element.querySelector('.element__like-count')
+        console.log(this._counter);
         this._detete = this._element.querySelector('.element__delete')
         this._button = this._element.querySelector('.element__like-button')
         this._image = this._element.querySelector('.element__image')

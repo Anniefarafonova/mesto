@@ -139,8 +139,8 @@ function createCard(item) {
                     .catch((error => console.error(`Ошибка при удалении лайка ${error}`)))
             } else {
                 api.addLike(cardId)
-                .then( res => {
-                    сonsole.log(res);
+                .then(res => {
+                    console.log(res);
                     cards.toggleLike(res.likes)
                 })
                 .catch((error => console.error(`Ошибка при поставк лайка ${error}`)))
