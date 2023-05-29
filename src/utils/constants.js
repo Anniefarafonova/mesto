@@ -29,16 +29,18 @@ export const initialCards = [
 const popupEditElement = document.querySelector(".popup_type_edit");
 const popupAddElement = document.querySelector(".popup_type_add");
 const popupOpenImageElement = document.querySelector(".popup_type_image");
-const popupCloseElement = document.querySelector('popup_type_confirm')
-
+const popupCloseElement = document.querySelector('.popup_type_confirm')
+const popupAvatarElement = document.querySelector('.popup_type_avatar')
 
 // Находим кнопки
 const profileButtonElement = document.querySelector(".profile");
 const profileEditButtonElement = profileButtonElement.querySelector(".profile__edit-button");
 const profileAddButtonElement = profileButtonElement.querySelector(".profile__add-button");
 
+
 // Находим поля формы в DOM
 const formElementEdit = popupEditElement.querySelector(".form");
 const formElementAdd = popupAddElement.querySelector(".form");
+const formElementAvatar = popupAvatarElement.querySelector(".form");
 
-export { popupEditElement, popupAddElement, popupOpenImageElement, popupCloseElement, profileButtonElement, profileEditButtonElement, profileAddButtonElement, formElementEdit, formElementAdd }
+export { popupEditElement, popupAddElement, popupOpenImageElement, popupCloseElement, popupAvatarElement, profileButtonElement, profileEditButtonElement, profileAddButtonElement, formElementEdit, formElementAdd, formElementAvatar }

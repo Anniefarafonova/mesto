@@ -11,17 +11,17 @@ import { FormValidator } from '../components/FormValidator.js'
 //initialCards.reverse();
 import './index.css'
 
-import { popupEditElement, popupAddElement, popupOpenImageElement, popupCloseElement, profileButtonElement, profileEditButtonElement, profileAddButtonElement, formElementEdit, formElementAdd } from '../utils/constants.js'
+import { popupEditElement, popupAddElement, popupOpenImageElement, popupCloseElement, popupAvatarElement, profileButtonElement, profileEditButtonElement, profileAddButtonElement, formElementEdit, formElementAdd, formElementAvatar } from '../utils/constants.js'
 
 /////////////////////////////////////Подкюч. к серверу/////////////////////////////////////////////////
 const api = new Api({
     baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-66',
     headers: {
-      authorization: '26786be3-fed9-4d83-9ae2-1348eee1b7d5',
-      'Content-Type': 'application/json'
+        authorization: '26786be3-fed9-4d83-9ae2-1348eee1b7d5',
+        'Content-Type': 'application/json'
     }
-  }); 
-  //   console.log(api)
+});
+//   console.log(api)
 //   api.getCard()
 //     .then(res => console.log(res))
 
@@ -48,8 +48,13 @@ const userInfo = new UserInfo(config);
 const popupEditElementSelector = ".popup_type_edit"
 const editPopupWithForm = new PopupWithForm(popupEditElementSelector, formSubmitEdit)
 
-function formSubmitEdit(item) {
-    userInfo.serUserInfo(item);
+function formSubmitEdit(data) {
+    api.setUserInfo(data)
+        .then(res => {
+            userInfo.serUserInfo({ avatar: res.avatar, firstname: res.name, description: res.about })
+        })
+        .catch((error => console.error(`Ошибка при редактировании ${error}`)))
+    // userInfo.serUserInfo(item);
     editPopupWithForm.close()
 }
 editPopupWithForm.setEventListeners()
@@ -67,55 +72,86 @@ function profileEditButtonElementFunction() {
 //     nameEditInput.value = profileData.firstname
 //     jobEditInput.value = profileData.description
 //   }
-  
+
 ////////////////////////////////////////Попап AD/////////////////////////////////////////////////
 const popupAddElementSelector = ".popup_type_add"
 const addtPopupWithForm = new PopupWithForm(popupAddElementSelector, formSubmitAdd)
 
-function formSubmitAdd(item) {
+function formSubmitAdd(data) {
     console.log('open');
-    cardsListSection.addItem(createCard(item));
-    addtPopupWithForm.close()
+    Promise.all([api.getInfo(), api.addCard(data)])
+        .then(([dataUser, dataCard]) => {
+            console.log(dataCard);
+            dataCard.myid = dataUser._id
+            cardsListSection.addItem(createCard(dataCard));
+            addtPopupWithForm.close();
+        })
+        .catch((error => console.error(`Ошибка при создании карточки ${error}`)))
 };
 addtPopupWithForm.setEventListeners()
+
+
 ///Иконка ADD/////////////////////////
 profileAddButtonElement.addEventListener('click', profileAddButtonElementFunction);
 function profileAddButtonElementFunction() {
     addtPopupWithForm.open()
 }
 
-//////////////////////////////////////////////////Попап confirm//////////////////////////////////
-// const popupCloseSelector = '.popup_type_confirm'
-// const confirmPopup = new PopupWithForm(popupCloseSelector, formSubmitClose)
+//////////////////////////////////////////////////Попап AVATAR///////////////////////////////////////
+const popupAvatarElementSelector = ".popup_type_avatar"
+const avatarPopup = new PopupWithForm(popupAvatarElementSelector, formSubmitAvatar)
 
-// function formSubmitClose(item) {
+function formSubmitAvatar(data) {
+    api.setUserAvatar(data)
+        .then(res => {
+            console.log(res);
+            userInfo.serUserInfo({ avatar: res.avatar, firstname: res.name, description: res.about })
+        })
+        .catch((error => console.error(`Ошибка при редактировании аватара ${error}`)))
+    // userInfo.serUserInfo(avatar);
+    avatarPopup.close()
+    console.log('Close');
+};
+avatarPopup.setEventListeners()
 
-//     console.log('Close');
-// };
-// //confirmPopup.setEventListeners()
+const avatarButton = document.querySelector('.profile__avatar-button')
+console.log(avatarButton);
+///Иконка CLOSE/////////////////////////
+avatarButton.addEventListener('click', form)
+function form() {
+    avatarPopup.open()
+}
 
-// const closeButton = popupCloseElement.querySelector('.element__delete')
-// console.log(closeButton);
-// ///Иконка CLOSE/////////////////////////
-// closeButton.addEventListener('click', close);
-// function close() {
-//     confirmPopup.open()
-// }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 ///////////////////////////реализация класса Section//////////////////////////////////////
- 
+
 function createCard(item) {
-    const cards = new Card(item.name, item.link,  popupOpenImageSection
-        .open, '.elements-template');
+    const cards = new Card(item, popupOpenImageSection
+        .open, '.elements-template', (likeElement, cardId) => {
+            if (likeElement.classList.contains('element__like-button_active')) {
+                api.deleteLike(cardId)
+                    .then(res => {
+                        console.log(res);
+                        cards.toggleLike(res.likes)
+                    })
+                    .catch((error => console.error(`Ошибка при удалении лайка ${error}`)))
+            } else {
+                api.addLike(cardId)
+                .then( res => {
+                    сonsole.log(res);
+                    cards.toggleLike(res.likes)
+                })
+                .catch((error => console.error(`Ошибка при поставк лайка ${error}`)))
+            }
+        });
     const cardElement = cards.generateCard()
     return cardElement;
 }
-
 const cardListSelector = '.elements__list-template';
 const cardsListSection = new Section((item) => {
-        cardsListSection.addItem(createCard(item));
+    cardsListSection.addItem(createCard(item));
 },
     cardListSelector
 );
@@ -125,20 +161,26 @@ const cardsListSection = new Section((item) => {
 //Для каждой создаем экремпляр класса валидатора. Экземпляр или инстанс - это результат вызова new FormValidator()
 const formEditValidator = new FormValidator(validationConfig, formElementEdit)
 const formAddValidator = new FormValidator(validationConfig, formElementAdd)
+const formAvatarValidator = new FormValidator(validationConfig, formElementAvatar)
 
 //  //"Включаем" подписки на изменения в инпутах
 formEditValidator.enableValidation()
 formAddValidator.enableValidation()
-
+formAvatarValidator.enableValidation()
 ///////////////////////////////////////////Основа API///////////////////////////////////////////////////////
 Promise.all([api.getInfo(), api.getCard()])
-.then(([dataUser, dataCard]) => {
-     console.log(dataCard);
-     dataCard.forEach(element => {
-        element.myid = dataUser._id
-     });
-    console.log(dataUser);
-    userInfo.serUserInfo({ avatar: dataUser.avatar, firstname: dataUser.name, description: dataUser.about})
-    cardsListSection.renderItems(dataCard)
-})
+    .then(([dataUser, dataCard]) => {
+        console.log(dataCard);
+        dataCard.forEach(element => {
+            element.myid = dataUser._id
+        });
+        console.log(dataUser);
+        userInfo.serUserInfo({ avatar: dataUser.avatar, firstname: dataUser.name, description: dataUser.about })
+        cardsListSection.renderItems(dataCard)
+    })
+    .catch((error) => console.error(`Ошибка при начальных данный страницы ${error}`))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// api.getInfo(data)
+//     .then(res => res.json)
+//     .then(res => console.log(res))

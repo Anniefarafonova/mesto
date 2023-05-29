@@ -116,9 +116,9 @@
         <form class="form" name="form-add" novalidate>
           <h2 class="form__container-title">Обновить аватар</h2>
           <div class="form__container-texts">
-            <input id="link" type="url" placeholder="Ссылка на картинку аватара" name="link" 
+            <input id="avatar" type="url" placeholder="Ссылка на картинку аватара" name="avatar" 
               class="form__item form__item_type_job" required>
-            <span id="link-error" class="error"></span>
+            <span id="avatar-error" class="error"></span>
           </div>
           <button type="submit" aria-label="Создать" class="popup__saved-button">Сохранить</button>
         </form>
@@ -133,8 +133,10 @@
       <button class="element__delete" aria-label="Значок удаления"></button>
       <div class="element__list">
         <h2 class="element__title"></h2>
-        <button type="button" class="element__like-button" aria-label="Значок лайк">
-        </button>
+        <div class="element__button-container">
+        <button type="button" class="element__like-button" aria-label="Значок лайк"></button>
+          <div class="element__like-count">0</div>
+      </div>
       </div>
     </article>
   </template>
