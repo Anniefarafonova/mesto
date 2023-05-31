@@ -19,7 +19,6 @@ export default class Api {
       }
     })
       .then(this._checkResponse)
-    //.then(res => res.ok ? res.json(): Promise.reject)
   }
   getCard() {
     return fetch(`${this._url}/cards`, {
@@ -79,5 +78,15 @@ export default class Api {
       }
     })
     .then(this._checkResponse)
+  }
+  deleteCard(cardId){
+    return fetch(`${this._url}/cards/${cardId}`, {
+      method: 'DELETE',
+      headers: {
+      authorization: this._authorization,
+      }
+    })
+    .then(this._checkResponse)
+
   }
 }

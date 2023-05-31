@@ -4,6 +4,7 @@ import PopupWithImage from '../components/PopupWithImage.js'
 import PopupWithForm from '../components/PopupWithForm.js'
 import UserInfo from '../components/UserInfo.js'
 import Api from '../components/Api.js'
+import PopupWithDelete from '../components/PopupWithDelete.js'
 
 import { validationConfig } from '../components/FormValidator.js'
 import { FormValidator } from '../components/FormValidator.js'
@@ -54,7 +55,8 @@ function formSubmitEdit(data) {
             userInfo.serUserInfo({ avatar: res.avatar, firstname: res.name, description: res.about })
         })
         .catch((error => console.error(`Ошибка при редактировании ${error}`)))
-    // userInfo.serUserInfo(item);
+        .finally(() => editPopupWithForm.setButtonText())
+
     editPopupWithForm.close()
 }
 editPopupWithForm.setEventListeners()
@@ -87,6 +89,7 @@ function formSubmitAdd(data) {
             addtPopupWithForm.close();
         })
         .catch((error => console.error(`Ошибка при создании карточки ${error}`)))
+        .finally(() => addtPopupWithForm.setButtonText())
 };
 addtPopupWithForm.setEventListeners()
 
@@ -108,7 +111,8 @@ function formSubmitAvatar(data) {
             userInfo.serUserInfo({ avatar: res.avatar, firstname: res.name, description: res.about })
         })
         .catch((error => console.error(`Ошибка при редактировании аватара ${error}`)))
-    // userInfo.serUserInfo(avatar);
+        .finally(() => avatarPopup.setButtonText() )
+   
     avatarPopup.close()
     console.log('Close');
 };
@@ -122,14 +126,29 @@ function form() {
     avatarPopup.open()
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//////////////////////////////////////////////Попап CONFIRM//////////////////////////////////////////////////////
+const popupConfirmElementSelector = ".popup_type_confirm"
+const Button = document.querySelector('.popup__saved-button_confirms')
+const defaultB = 'Да...'
+const popupDelete = new PopupWithDelete(popupConfirmElementSelector, formSubmitConfirm)
+function formSubmitConfirm({ card, cardId}) {
+    console.log('x');
+    api.deleteCard(cardId)
+        .then(res => {
+            console.log(res);
+            cardId.deleteButtonCard()
+            popupDelete.close()
+        }) 
+        .catch((error => console.error(`Ошибка при удалении карточки ${error}`)))
+        .finally(() => popupDelete.setButtonText() )
+   
+}
+popupDelete.setEventListeners()
 
 ///////////////////////////реализация класса Section//////////////////////////////////////
-
 function createCard(item) {
     const cards = new Card(item, popupOpenImageSection
-        .open, '.elements-template', (likeElement, cardId) => {
+        .open, '.elements-template', popupDelete.open, (likeElement, cardId) => {
             if (likeElement.classList.contains('element__like-button_active')) {
                 api.deleteLike(cardId)
                     .then(res => {
@@ -139,11 +158,11 @@ function createCard(item) {
                     .catch((error => console.error(`Ошибка при удалении лайка ${error}`)))
             } else {
                 api.addLike(cardId)
-                .then(res => {
-                    console.log(res);
-                    cards.toggleLike(res.likes)
-                })
-                .catch((error => console.error(`Ошибка при поставк лайка ${error}`)))
+                    .then(res => {
+                        console.log(res);
+                        cards.toggleLike(res.likes)
+                    })
+                    .catch((error => console.error(`Ошибка при поставк лайка ${error}`)))
             }
         });
     const cardElement = cards.generateCard()
@@ -158,7 +177,7 @@ const cardsListSection = new Section((item) => {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////ВАЛИДАЦИЯ///////////////////////////////////////////////
-//Для каждой создаем экремпляр класса валидатора. Экземпляр или инстанс - это результат вызова new FormValidator()
+
 const formEditValidator = new FormValidator(validationConfig, formElementEdit)
 const formAddValidator = new FormValidator(validationConfig, formElementAdd)
 const formAvatarValidator = new FormValidator(validationConfig, formElementAvatar)

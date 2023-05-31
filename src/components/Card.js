@@ -1,6 +1,5 @@
 export default class Card {
-    constructor(cardData, handleCardClick, templateSelector, putLike) {
-
+    constructor(cardData, handleCardClick, templateSelector, openConfirm, putLike) {
         this._name = cardData.name;
         this._link = cardData.link;
         this._myid = cardData.myid;
@@ -9,11 +8,10 @@ export default class Card {
         this._likesLength = cardData.likes.length;
         this._putLike = putLike;
         this._ownerId = cardData.owner._id;
+        this._openConfirm = openConfirm
         this._templateSelector = templateSelector;
         this.handleCardClick = handleCardClick;
-        // this._handleDeletCard = handleDeletCard; 
-        //  console.log(this._myid);
-        //  console.log(this._ownerId);
+
     }
     _getTemplate() {
         // забираем разметку из HTML и клонируем элемент
@@ -37,14 +35,13 @@ export default class Card {
                 this._button.classList.add('element__like-button_active')
                 return
             }
-               this._counter.textContent =  this._likesLength
+            this._counter.textContent = this._likesLength
         });
     }
 
     generateCard() {
         this._element = this._getTemplate();
         this._counter = this._element.querySelector('.element__like-count')
-        console.log(this._counter);
         this._detete = this._element.querySelector('.element__delete')
         this._button = this._element.querySelector('.element__like-button')
         this._image = this._element.querySelector('.element__image')
@@ -60,28 +57,25 @@ export default class Card {
 
     // Функция лайка
     _likeCard() {
-        this._putLike (this._button, this._cardId)
+        this._putLike(this._button, this._cardId)
         // this._button.classList.toggle('element__like-button_active')
     };
-    toggleLike(likes){
+    toggleLike(likes) {
         this._button.classList.toggle('element__like-button_active')
         this._counter.textContent = likes.length
     }
     //Функция удаления
-    _deleteCard() {
-        //this._detete = this._detete.closest('.element')
-        //this._detete.remove()
+    _deleteButtonCard() {
         this._element.remove();
         this._element = null
     }
 
-
-    // Функция открытия картинки 
-    // handleCardClick(){
-    //     this._image.open()
-    // }
     openImg() {
         this.handleCardClick(this._name, this._link)
+    }
+    _handleOpenDelete() {
+        // this._openConfirm({card: this, cardID: this._cardID })
+        this._openConfirm(this._id)
     }
     //слушатели
     _setEventListeners() {
@@ -89,18 +83,19 @@ export default class Card {
         this._button.addEventListener('click', () => {
             this._likeCard()
         })
-
         //слушатель удалялки
-        this._detete.addEventListener('click', () => {
-            this._deleteCard()
-        })
+        // this._detete.addEventListener('click', () => {
+        //     this._deleteButtonCard()
+        // })
+        //слушатель открытия картинки
         this._image.addEventListener('click', () => {
             this.openImg()
         });
+        // //слушатель 
+        this._detete.addEventListener('click', () => {
+            this._handleOpenDelete()
 
-        // this._detete.addEventListener('click', () => {
-        //     this._handleDeletCard()
-        // })
+        })
 
     }
 }
