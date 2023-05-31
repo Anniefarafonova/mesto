@@ -74,8 +74,8 @@ export default class Card {
         this.handleCardClick(this._name, this._link)
     }
     _handleOpenDelete() {
-        // this._openConfirm({card: this, cardID: this._cardID })
-        this._openConfirm(this._id)
+        this._openConfirm({card: this, cardID: this._cardID })
+   
     }
     //слушатели
     _setEventListeners() {

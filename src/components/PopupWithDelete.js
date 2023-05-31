@@ -17,8 +17,13 @@ export default class PopupWithDelete extends Popup {
 
     setEventListeners() {
         super.setEventListeners();
-       this.popupButton.addEventListener('click', this._submit)
+       this.popupButton.addEventListener('submit', this._submit)
     }
+    
+    setSubmitHanlder (newFormSubmit ){
+        this.formSubmit = newFormSubmit
+    }
+    
     setButtonText(text) {
         this.popupButton.textContent =  this.popupButtonLoading
     }

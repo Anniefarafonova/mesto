@@ -111,8 +111,8 @@ function formSubmitAvatar(data) {
             userInfo.serUserInfo({ avatar: res.avatar, firstname: res.name, description: res.about })
         })
         .catch((error => console.error(`Ошибка при редактировании аватара ${error}`)))
-        .finally(() => avatarPopup.setButtonText() )
-   
+        .finally(() => avatarPopup.setButtonText())
+
     avatarPopup.close()
     console.log('Close');
 };
@@ -131,24 +131,36 @@ const popupConfirmElementSelector = ".popup_type_confirm"
 const Button = document.querySelector('.popup__saved-button_confirms')
 const defaultB = 'Да...'
 const popupDelete = new PopupWithDelete(popupConfirmElementSelector, formSubmitConfirm)
-function formSubmitConfirm({ card, cardId}) {
+function formSubmitConfirm({ card, cardId }) {
     console.log('x');
     api.deleteCard(cardId)
         .then(res => {
             console.log(res);
-            cardId.deleteButtonCard()
+            card.deleteButtonCard()
             popupDelete.close()
-        }) 
+        })
         .catch((error => console.error(`Ошибка при удалении карточки ${error}`)))
-        .finally(() => popupDelete.setButtonText() )
-   
+        .finally(() => popupDelete.setButtonText())
+
 }
 popupDelete.setEventListeners()
 
 ///////////////////////////реализация класса Section//////////////////////////////////////
+
 function createCard(item) {
     const cards = new Card(item, popupOpenImageSection
-        .open, '.elements-template', popupDelete.open, (likeElement, cardId) => {
+        .open, '.elements-template',
+        (id) => {
+            popupDelete.open(),
+                popupDelete.setSubmitHanlder(() => {
+                    api.deleteCard(id).then(() => {
+                            cards.deleteButtonCard()
+                            
+                        })
+                })   
+                    
+        },
+        (likeElement, cardId) => {
             if (likeElement.classList.contains('element__like-button_active')) {
                 api.deleteLike(cardId)
                     .then(res => {
@@ -168,6 +180,7 @@ function createCard(item) {
     const cardElement = cards.generateCard()
     return cardElement;
 }
+popupDelete.setSubmitHanlder()
 const cardListSelector = '.elements__list-template';
 const cardsListSection = new Section((item) => {
     cardsListSection.addItem(createCard(item));
@@ -200,6 +213,4 @@ Promise.all([api.getInfo(), api.getCard()])
     .catch((error) => console.error(`Ошибка при начальных данный страницы ${error}`))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// api.getInfo(data)
-//     .then(res => res.json)
-//     .then(res => console.log(res))
+
