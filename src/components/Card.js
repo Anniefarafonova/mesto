@@ -1,13 +1,14 @@
 export default class Card {
-    constructor(cardData, handleCardClick, templateSelector, openConfirm, putLike) {
-        this._name = cardData.name;
-        this._link = cardData.link;
-        this._myid = cardData.myid;
-        this._cardId = cardData._id
-        this._likes = cardData.likes;
-        this._likesLength = cardData.likes.length;
+    constructor(data, handleCardClick, templateSelector, openConfirm, putLike) {
+        this.card = data;
+        this._name = data.name;
+        this._link = data.link;
+        this._myid = data.myid;
+        this._cardId = data._id
+        this._likes = data.likes;
+        this._likesLength = data.likes.length;
         this._putLike = putLike;
-        this._ownerId = cardData.owner._id;
+        this._ownerId = data.owner._id;
         this._openConfirm = openConfirm
         this._templateSelector = templateSelector;
         this.handleCardClick = handleCardClick;
@@ -24,9 +25,9 @@ export default class Card {
     }
     _visibleDeleteButton() {
         if (this._myid === this._ownerId) {
-            this._detete.style.visibility = 'visible'
+            this._delete.style.visibility = 'visible'
         } else if (this._myid !== this._ownerId) {
-            this._detete.style.visibility = 'hidden'
+            this._delete.style.visibility = 'hidden'
         }
     }
     _countLike() {
@@ -42,7 +43,7 @@ export default class Card {
     generateCard() {
         this._element = this._getTemplate();
         this._counter = this._element.querySelector('.element__like-count')
-        this._detete = this._element.querySelector('.element__delete')
+        this._delete = this._element.querySelector('.element__delete')
         this._button = this._element.querySelector('.element__like-button')
         this._image = this._element.querySelector('.element__image')
         this._text = this._element.querySelector('.element__title')
@@ -65,17 +66,20 @@ export default class Card {
         this._counter.textContent = likes.length
     }
     //Функция удаления
-    _deleteButtonCard() {
+    deleteButtonCard() {
         this._element.remove();
         this._element = null
-    }
 
+    }
+    getId() {
+    return  this._cardId 
+    }
     openImg() {
         this.handleCardClick(this._name, this._link)
     }
     _handleOpenDelete() {
-        this._openConfirm({card: this, cardID: this._cardID })
-   
+        this._openConfirm({ card: this, cardID: this._cardID })
+
     }
     //слушатели
     _setEventListeners() {
@@ -84,7 +88,7 @@ export default class Card {
             this._likeCard()
         })
         //слушатель удалялки
-        // this._detete.addEventListener('click', () => {
+        // this._delete.addEventListener('click', () => {
         //     this._deleteButtonCard()
         // })
         //слушатель открытия картинки
@@ -92,7 +96,7 @@ export default class Card {
             this.openImg()
         });
         // //слушатель 
-        this._detete.addEventListener('click', () => {
+        this._delete.addEventListener('click', () => {
             this._handleOpenDelete()
 
         })

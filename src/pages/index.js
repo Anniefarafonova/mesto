@@ -81,6 +81,8 @@ const addtPopupWithForm = new PopupWithForm(popupAddElementSelector, formSubmitA
 
 function formSubmitAdd(data) {
     console.log('open');
+    formElementAdd.reset();
+    formAddValidator.resetValidation()
     Promise.all([api.getInfo(), api.addCard(data)])
         .then(([dataUser, dataCard]) => {
             console.log(dataCard);
@@ -150,15 +152,18 @@ popupDelete.setEventListeners()
 function createCard(item) {
     const cards = new Card(item, popupOpenImageSection
         .open, '.elements-template',
-        (id) => {
+        () => {
+            const id = cards.getId()
+            console.log(id);
+            console.log('x');
             popupDelete.open(),
                 popupDelete.setSubmitHanlder(() => {
                     api.deleteCard(id).then(() => {
-                            cards.deleteButtonCard()
-                            
-                        })
-                })   
-                    
+                        cards.deleteButtonCard()
+                        popupDelete.close()
+                    })
+                })
+
         },
         (likeElement, cardId) => {
             if (likeElement.classList.contains('element__like-button_active')) {
@@ -208,7 +213,8 @@ Promise.all([api.getInfo(), api.getCard()])
         });
         console.log(dataUser);
         userInfo.serUserInfo({ avatar: dataUser.avatar, firstname: dataUser.name, description: dataUser.about })
-        cardsListSection.renderItems(dataCard)
+        cardsListSection.renderItems(dataCard.reverse())
+
     })
     .catch((error) => console.error(`Ошибка при начальных данный страницы ${error}`))
 //////////////////////////////////////////////////////////////////////////////////////////////////////////

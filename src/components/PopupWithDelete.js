@@ -10,22 +10,22 @@ export default class PopupWithDelete extends Popup {
     }
     _submit = (evt) => {
         evt.preventDefault();
-        this.popupButton.textContent = `${this.popupButton.textContent}...`;
+         this.popupButton.textContent = `${this.popupButton.textContent}...`;
         this.formSubmit(({ card: this._element, cardID: this._cardID }));
         
       }
 
     setEventListeners() {
         super.setEventListeners();
-       this.popupButton.addEventListener('submit', this._submit)
+       this.popupButton.addEventListener('click', this._submit)
     }
     
     setSubmitHanlder (newFormSubmit ){
         this.formSubmit = newFormSubmit
     }
     
-    setButtonText(text) {
-        this.popupButton.textContent =  this.popupButtonLoading
+    setButtonText( ) {
+        this.popupButton.textContent = this.popupButtonLoading
     }
 
     open = (card, cardId ) => {
@@ -34,15 +34,3 @@ export default class PopupWithDelete extends Popup {
         this._cardID = cardId;
     }
 }
-
-
-
-
-    // setEventListeners() {
-    //     super.setEventListeners();
-    //     this._popup.addEventListener('submit', (evt) => {
-    //         evt.preventDefault();
-    //         this.formSubmit(({ card: this._element, cardID: this._cardID }));
-    //         this.close()
-    //     })
-    // }
