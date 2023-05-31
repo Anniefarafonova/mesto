@@ -22,12 +22,7 @@ const api = new Api({
         'Content-Type': 'application/json'
     }
 });
-//   console.log(api)
-//   api.getCard()
-//     .then(res => console.log(res))
 
-//   api.getInfo()
-//     .then(res => console.log(res))
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////Попап открытия карточек////////////////////////////////////////////
@@ -36,8 +31,6 @@ const popupOpenImageElementSelector = ".popup_type_image"
 const popupOpenImageSection = new PopupWithImage(popupOpenImageElementSelector)
 popupOpenImageSection.setEventListeners()
 ///////////////////////////////////////////////////////////////////////////////////////////
-
-
 //Попап EDIT
 const config = {
     nameSelector: '.profile__title',
@@ -52,7 +45,8 @@ const editPopupWithForm = new PopupWithForm(popupEditElementSelector, formSubmit
 function formSubmitEdit(data) {
     api.setUserInfo(data)
         .then(res => {
-            userInfo.serUserInfo({ avatar: res.avatar, firstname: res.name, description: res.about })
+            const userInfoAll = { avatar: res.avatar, firstname: res.name, description: res.about }
+            userInfo.serUserInfo(userInfoAll)
         })
         .catch((error => console.error(`Ошибка при редактировании ${error}`)))
         .finally(() => editPopupWithForm.setButtonText())
@@ -74,7 +68,6 @@ function profileEditButtonElementFunction() {
 //     nameEditInput.value = profileData.firstname
 //     jobEditInput.value = profileData.description
 //   }
-
 ////////////////////////////////////////Попап AD/////////////////////////////////////////////////
 const popupAddElementSelector = ".popup_type_add"
 const addtPopupWithForm = new PopupWithForm(popupAddElementSelector, formSubmitAdd)
@@ -110,7 +103,7 @@ function formSubmitAvatar(data) {
     api.setUserAvatar(data)
         .then(res => {
             console.log(res);
-            userInfo.serUserInfo({ avatar: res.avatar, firstname: res.name, description: res.about })
+            userInfo.serUserInfo({ avatar: res.avatar })
         })
         .catch((error => console.error(`Ошибка при редактировании аватара ${error}`)))
         .finally(() => avatarPopup.setButtonText())
