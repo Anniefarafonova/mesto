@@ -26,7 +26,7 @@
 @import url(../blocks/form/__container-texts/form__container-texts.css);
 @import url(../blocks/form/__item/form__item.css);
 @import url(../blocks/form/__item-error/form__item-error.css);
-@import url(../blocks/form/__container-title/_confirm/form__container-confirm.css);
+@import url(../blocks/form/_confirm/form__container-confirm.css);
 
 @import url(../blocks/error/error.css);
 @import url(../blocks/error/_opened/error_opened.css);
