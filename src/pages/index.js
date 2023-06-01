@@ -103,7 +103,7 @@ function formSubmitAvatar(data) {
     api.setUserAvatar(data)
         .then(res => {
             console.log(res);
-            userInfo.serUserInfo({ avatar: res.avatar })
+            userInfo.serUserInfo({ avatar: res.avatar, firstname: res.name, description: res.about })
         })
         .catch((error => console.error(`Ошибка при редактировании аватара ${error}`)))
         .finally(() => avatarPopup.setButtonText())
