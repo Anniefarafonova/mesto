@@ -97,10 +97,11 @@ function handleFormSubmitAvatar(data) {
         .then(res => {
             console.log(res);
             userInfo.serUserInfo({ avatar: res.avatar, firstname: res.name, description: res.about })
-            avatarPopup.close()
+           avatarPopup.close()
         })
         .catch((error => console.error(`Ошибка при редактировании аватара ${error}`)))
-        .finally(() => avatarPopup.setButtonText())
+        //.finally(() => avatarPopup.setButtonText())
+        .finally(() => avatarPopup.setEventListeners())
 };
 avatarPopup.setEventListeners()
 
@@ -113,15 +114,17 @@ function form() {
 
 //////////////////////////////////////////////Попап CONFIRM//////////////////////////////////////////////////////
 
-const defaultB = 'Да...'
+
 const popupDelete = new PopupWithDelete(popupConfirmElementSelector, handleFormSubmitConfirm)
 function handleFormSubmitConfirm({ card, cardId }) {
     console.log('x');
+    // const text = 'Да...'
     api.deleteCard(cardId)
         .then(res => {
             console.log(res);
             card.deleteButtonCard()
-            popupDelete.close()
+            popupDelete.setButtonText(е)
+            
         })
         .catch((error => console.error(`Ошибка при удалении карточки ${error}`)))
         .finally(() => popupDelete.setButtonText())
