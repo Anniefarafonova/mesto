@@ -8,11 +8,9 @@ import PopupWithDelete from '../components/PopupWithDelete.js'
 
 import { validationConfig } from '../components/FormValidator.js'
 import { FormValidator } from '../components/FormValidator.js'
-//import { initialCards } from '../utils/constants.js'
-//initialCards.reverse();
 import './index.css'
 
-import { popupEditElement, popupAddElement, popupOpenImageElement, popupCloseElement, popupAvatarElement, profileButtonElement, profileEditButtonElement, profileAddButtonElement, formElementEdit, formElementAdd, formElementAvatar } from '../utils/constants.js'
+import { popupEditElement, popupEditElementSelector, popupAddElement, popupAddElementSelector, popupOpenImageElement, popupOpenImageElementSelector, popupCloseElement, popupConfirmElementSelector, popupAvatarElement, popupAvatarElementSelector, profileButtonElement, profileEditButtonElement, profileAddButtonElement, avatarButton, formElementEdit, formElementAdd, formElementAvatar } from '../utils/constants.js'
 
 /////////////////////////////////////Подкюч. к серверу/////////////////////////////////////////////////
 const api = new Api({
@@ -22,12 +20,10 @@ const api = new Api({
         'Content-Type': 'application/json'
     }
 });
+let userId;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-
 //////////////////////////////////////Попап открытия карточек////////////////////////////////////////////
-const popupOpenImageElementSelector = ".popup_type_image"
-
 const popupOpenImageSection = new PopupWithImage(popupOpenImageElementSelector)
 popupOpenImageSection.setEventListeners()
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -39,19 +35,17 @@ const config = {
 }
 const userInfo = new UserInfo(config);
 ////////////////////////////////////////Попап EDIT/////////////////////////////////////////////////
-const popupEditElementSelector = ".popup_type_edit"
-const editPopupWithForm = new PopupWithForm(popupEditElementSelector, formSubmitEdit)
-
-function formSubmitEdit(data) {
+const editPopupWithForm = new PopupWithForm(popupEditElementSelector, handleFormSubmitEdit)
+function handleFormSubmitEdit(data) {
     api.setUserInfo(data)
         .then(res => {
             const userInfoAll = { avatar: res.avatar, firstname: res.name, description: res.about }
             userInfo.serUserInfo(userInfoAll)
+            editPopupWithForm.close()
         })
         .catch((error => console.error(`Ошибка при редактировании ${error}`)))
         .finally(() => editPopupWithForm.setButtonText())
 
-    editPopupWithForm.close()
 }
 editPopupWithForm.setEventListeners()
 ///Иконка EDIT/////////////////////////
@@ -69,17 +63,18 @@ function profileEditButtonElementFunction() {
 //     jobEditInput.value = profileData.description
 //   }
 ////////////////////////////////////////Попап AD/////////////////////////////////////////////////
-const popupAddElementSelector = ".popup_type_add"
-const addtPopupWithForm = new PopupWithForm(popupAddElementSelector, formSubmitAdd)
 
-function formSubmitAdd(data) {
+const addtPopupWithForm = new PopupWithForm(popupAddElementSelector, handleFormSubmitAdd)
+function handleFormSubmitAdd(data) {
     console.log('open');
     formElementAdd.reset();
     formAddValidator.resetValidation()
     Promise.all([api.getInfo(), api.addCard(data)])
         .then(([dataUser, dataCard]) => {
             console.log(dataCard);
-            dataCard.myid = dataUser._id
+            userId = dataUser._id  
+            dataCard.myid = userId
+            // dataCard.myid = dataUser._id
             cardsListSection.addItem(createCard(dataCard));
             addtPopupWithForm.close();
         })
@@ -87,33 +82,28 @@ function formSubmitAdd(data) {
         .finally(() => addtPopupWithForm.setButtonText())
 };
 addtPopupWithForm.setEventListeners()
-
-
 ///Иконка ADD/////////////////////////
 profileAddButtonElement.addEventListener('click', profileAddButtonElementFunction);
 function profileAddButtonElementFunction() {
     addtPopupWithForm.open()
+    formAddValidator.resetValidation()
 }
-
 //////////////////////////////////////////////////Попап AVATAR///////////////////////////////////////
-const popupAvatarElementSelector = ".popup_type_avatar"
-const avatarPopup = new PopupWithForm(popupAvatarElementSelector, formSubmitAvatar)
-
-function formSubmitAvatar(data) {
+const avatarPopup = new PopupWithForm(popupAvatarElementSelector, handleFormSubmitAvatar)
+function handleFormSubmitAvatar(data) {
+    formElementAvatar.reset();
+    formAvatarValidator.resetValidation()
     api.setUserAvatar(data)
         .then(res => {
             console.log(res);
             userInfo.serUserInfo({ avatar: res.avatar, firstname: res.name, description: res.about })
+            avatarPopup.close()
         })
         .catch((error => console.error(`Ошибка при редактировании аватара ${error}`)))
         .finally(() => avatarPopup.setButtonText())
-
-    avatarPopup.close()
-    console.log('Close');
 };
 avatarPopup.setEventListeners()
 
-const avatarButton = document.querySelector('.profile__avatar-button')
 console.log(avatarButton);
 ///Иконка CLOSE/////////////////////////
 avatarButton.addEventListener('click', form)
@@ -122,11 +112,10 @@ function form() {
 }
 
 //////////////////////////////////////////////Попап CONFIRM//////////////////////////////////////////////////////
-const popupConfirmElementSelector = ".popup_type_confirm"
-const Button = document.querySelector('.popup__saved-button_confirms')
+
 const defaultB = 'Да...'
-const popupDelete = new PopupWithDelete(popupConfirmElementSelector, formSubmitConfirm)
-function formSubmitConfirm({ card, cardId }) {
+const popupDelete = new PopupWithDelete(popupConfirmElementSelector, handleFormSubmitConfirm)
+function handleFormSubmitConfirm({ card, cardId }) {
     console.log('x');
     api.deleteCard(cardId)
         .then(res => {
@@ -201,8 +190,10 @@ formAvatarValidator.enableValidation()
 Promise.all([api.getInfo(), api.getCard()])
     .then(([dataUser, dataCard]) => {
         console.log(dataCard);
+        userId = dataUser._id
+        console.log(userId);
         dataCard.forEach(element => {
-            element.myid = dataUser._id
+            element.myid = userId
         });
         console.log(dataUser);
         userInfo.serUserInfo({ avatar: dataUser.avatar, firstname: dataUser.name, description: dataUser.about })

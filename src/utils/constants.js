@@ -27,15 +27,22 @@ export const initialCards = [
 
 // Находим popup
 const popupEditElement = document.querySelector(".popup_type_edit");
+const popupEditElementSelector = ".popup_type_edit"
 const popupAddElement = document.querySelector(".popup_type_add");
+const popupAddElementSelector = ".popup_type_add"
+
 const popupOpenImageElement = document.querySelector(".popup_type_image");
+const popupOpenImageElementSelector = ".popup_type_image"
 const popupCloseElement = document.querySelector('.popup_type_confirm')
+const popupConfirmElementSelector = ".popup_type_confirm"
 const popupAvatarElement = document.querySelector('.popup_type_avatar')
+const popupAvatarElementSelector = ".popup_type_avatar"
 
 // Находим кнопки
 const profileButtonElement = document.querySelector(".profile");
 const profileEditButtonElement = profileButtonElement.querySelector(".profile__edit-button");
 const profileAddButtonElement = profileButtonElement.querySelector(".profile__add-button");
+const avatarButton = document.querySelector('.profile__avatar-button')
 
 
 
@@ -44,4 +51,4 @@ const formElementEdit = popupEditElement.querySelector(".form");
 const formElementAdd = popupAddElement.querySelector(".form");
 const formElementAvatar = popupAvatarElement.querySelector(".form");
 
-export { popupEditElement, popupAddElement, popupOpenImageElement, popupCloseElement, popupAvatarElement, profileButtonElement, profileEditButtonElement, profileAddButtonElement, formElementEdit, formElementAdd, formElementAvatar }
+export { popupEditElement, popupEditElementSelector, popupAddElement, popupAddElementSelector, popupOpenImageElement, popupOpenImageElementSelector, popupCloseElement, popupConfirmElementSelector, popupAvatarElement, popupAvatarElementSelector, profileButtonElement, profileEditButtonElement, profileAddButtonElement, avatarButton, formElementEdit, formElementAdd, formElementAvatar }
