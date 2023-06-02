@@ -51,4 +51,10 @@ const formElementEdit = popupEditElement.querySelector(".form");
 const formElementAdd = popupAddElement.querySelector(".form");
 const formElementAvatar = popupAvatarElement.querySelector(".form");
 
-export { popupEditElement, popupEditElementSelector, popupAddElement, popupAddElementSelector, popupOpenImageElement, popupOpenImageElementSelector, popupCloseElement, popupConfirmElementSelector, popupAvatarElement, popupAvatarElementSelector, profileButtonElement, profileEditButtonElement, profileAddButtonElement, avatarButton, formElementEdit, formElementAdd, formElementAvatar }
+const config = {
+    nameSelector: '.profile__title',
+    jobSelector: '.profile__subtitle',
+    avatarSelector: '.profile__avatar'
+}
+
+export { popupEditElement, popupEditElementSelector, popupAddElement, popupAddElementSelector, popupOpenImageElement, popupOpenImageElementSelector, popupCloseElement, popupConfirmElementSelector, popupAvatarElement, popupAvatarElementSelector, profileButtonElement, profileEditButtonElement, profileAddButtonElement, avatarButton, formElementEdit, formElementAdd, formElementAvatar, config }

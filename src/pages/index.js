@@ -10,7 +10,7 @@ import { validationConfig } from '../components/FormValidator.js'
 import { FormValidator } from '../components/FormValidator.js'
 import './index.css'
 
-import { popupEditElement, popupEditElementSelector, popupAddElement, popupAddElementSelector, popupOpenImageElement, popupOpenImageElementSelector, popupCloseElement, popupConfirmElementSelector, popupAvatarElement, popupAvatarElementSelector, profileButtonElement, profileEditButtonElement, profileAddButtonElement, avatarButton, formElementEdit, formElementAdd, formElementAvatar } from '../utils/constants.js'
+import { popupEditElement, popupEditElementSelector, popupAddElement, popupAddElementSelector, popupOpenImageElement, popupOpenImageElementSelector, popupCloseElement, popupConfirmElementSelector, popupAvatarElement, popupAvatarElementSelector, profileButtonElement, profileEditButtonElement, profileAddButtonElement, avatarButton, formElementEdit, formElementAdd, formElementAvatar, config } from '../utils/constants.js'
 
 /////////////////////////////////////Подкюч. к серверу/////////////////////////////////////////////////
 const api = new Api({
@@ -20,6 +20,7 @@ const api = new Api({
         'Content-Type': 'application/json'
     }
 });
+
 let userId;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,11 +29,6 @@ const popupOpenImageSection = new PopupWithImage(popupOpenImageElementSelector)
 popupOpenImageSection.setEventListeners()
 ///////////////////////////////////////////////////////////////////////////////////////////
 //Попап EDIT
-const config = {
-    nameSelector: '.profile__title',
-    jobSelector: '.profile__subtitle',
-    avatarSelector: '.profile__avatar'
-}
 const userInfo = new UserInfo(config);
 ////////////////////////////////////////Попап EDIT/////////////////////////////////////////////////
 const editPopupWithForm = new PopupWithForm(popupEditElementSelector, handleFormSubmitEdit)
@@ -49,8 +45,8 @@ function handleFormSubmitEdit(data) {
 }
 editPopupWithForm.setEventListeners()
 ///Иконка EDIT/////////////////////////
-profileEditButtonElement.addEventListener('click', profileEditButtonElementFunction);
-function profileEditButtonElementFunction() {
+profileEditButtonElement.addEventListener('click', clickProfileEditButtonElement);
+function clickProfileEditButtonElement() {
     editPopupWithForm.setInputsValues(userInfo.getUserInfo())
     console.log(userInfo.getUserInfo());
     editPopupWithForm.open()
@@ -83,16 +79,16 @@ function handleFormSubmitAdd(data) {
 };
 addtPopupWithForm.setEventListeners()
 ///Иконка ADD/////////////////////////
-profileAddButtonElement.addEventListener('click', profileAddButtonElementFunction);
-function profileAddButtonElementFunction() {
+profileAddButtonElement.addEventListener('click', clickProfileAddButtonElement);
+function clickProfileAddButtonElement() {
     addtPopupWithForm.open()
     formAddValidator.resetValidation()
 }
 //////////////////////////////////////////////////Попап AVATAR///////////////////////////////////////
 const avatarPopup = new PopupWithForm(popupAvatarElementSelector, handleFormSubmitAvatar)
 function handleFormSubmitAvatar(data) {
-    formElementAvatar.reset();
-    formAvatarValidator.resetValidation()
+    // formElementAvatar.reset();
+    // formAvatarValidator.resetValidation()
     api.setUserAvatar(data)
         .then(res => {
             console.log(res);
@@ -100,16 +96,18 @@ function handleFormSubmitAvatar(data) {
            avatarPopup.close()
         })
         .catch((error => console.error(`Ошибка при редактировании аватара ${error}`)))
-        //.finally(() => avatarPopup.setButtonText())
         .finally(() => avatarPopup.setEventListeners())
 };
 avatarPopup.setEventListeners()
 
 console.log(avatarButton);
 ///Иконка CLOSE/////////////////////////
-avatarButton.addEventListener('click', form)
-function form() {
+avatarButton.addEventListener('click', clickAvatarButton)
+function clickAvatarButton() {
+    formElementAvatar.reset();
+    formAvatarValidator.resetValidation()
     avatarPopup.open()
+
 }
 
 //////////////////////////////////////////////Попап CONFIRM//////////////////////////////////////////////////////
@@ -119,16 +117,15 @@ const popupDelete = new PopupWithDelete(popupConfirmElementSelector, handleFormS
 function handleFormSubmitConfirm({ card, cardId }) {
     console.log('x');
     // const text = 'Да...'
+    popupDelete.getButtonText()
     api.deleteCard(cardId)
         .then(res => {
             console.log(res);
             card.deleteButtonCard()
-            popupDelete.setButtonText(е)
-            
+            popupDelete.getButtonText()
+            popupDelete.close()
         })
         .catch((error => console.error(`Ошибка при удалении карточки ${error}`)))
-        .finally(() => popupDelete.setButtonText())
-
 }
 popupDelete.setEventListeners()
 
@@ -143,12 +140,14 @@ function createCard(item) {
             console.log('x');
             popupDelete.open(),
                 popupDelete.setSubmitHanlder(() => {
-                    api.deleteCard(id).then(() => {
+                    api.deleteCard(id)
+                    .then(() => {
                         cards.deleteButtonCard()
                         popupDelete.close()
                     })
-                })
-
+                    .catch((error => console.error(`Ошибка при удалении картинки ${error}`)))
+                .finally(() => popupDelete.setButtonText())
+            })
         },
         (likeElement, cardId) => {
             if (likeElement.classList.contains('element__like-button_active')) {

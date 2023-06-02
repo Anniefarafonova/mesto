@@ -10,25 +10,25 @@ export default class PopupWithDelete extends Popup {
     }
     _submit = (evt) => {
         evt.preventDefault();
-         this.popupButton.textContent = `${this.popupButton.textContent}...`;
+        //  this.popupButton.textContent = `${this.popupButton.textContent}...`;
+        this.popupButton.textContent = 'Да...'
         this.formSubmit(({ card: this._element, cardID: this._cardID }));
-        
-      }
+
+    }
 
     setEventListeners() {
         super.setEventListeners();
-       this.popupButton.addEventListener('click', this._submit)
-    }
-    
-    setSubmitHanlder (newFormSubmit ){
-        this.formSubmit = newFormSubmit
-    }
-    
-    setButtonText( ) {
-        this.popupButton.textContent = this.popupButtonLoading
+        this.popupButton.addEventListener('click', this._submit)
     }
 
-    open = (card, cardId ) => {
+    setSubmitHanlder(newFormSubmit) {
+        this.formSubmit = newFormSubmit
+    }
+    setButtonText() {
+            this.popupButton.textContent = this.popupButtonLoading
+        } 
+
+    open = (card, cardId) => {
         super.open()
         this._element = card;
         this._cardID = cardId;
